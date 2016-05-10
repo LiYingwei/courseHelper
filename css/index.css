@@ -1,0 +1,54 @@
+.className {
+	cursor: pointer;
+}
+.transparentWindow {
+	cursor: pointer;
+}
+
+#chartwindow3 {
+	width: 60px;
+	height: 20px;
+	position: absolute;
+	right: 80px;
+	bottom: 105px;
+}
+
+#chartwindow4 {
+	width: 60px;
+	height: 20px;
+	position: absolute;
+	right: 255px;
+	bottom: 15px;
+}
+
+#chartwindow5 {
+	width: 60px;
+	height: 20px;
+	position: absolute;
+	right: 430px;
+	bottom: 105px;
+}
+
+#chartwindow6 {
+	width: 60px;
+	height: 20px;
+	position: absolute;
+	right: 430px;
+	bottom: 290px;
+}
+
+#chartwindow1 {
+	width: 60px;
+	height: 20px;
+	position: absolute;
+	right: 255px;
+	bottom: 380px;
+}
+
+#chartwindow2 {
+	width: 60px;
+	height: 20px;
+	position: absolute;
+	right: 80px;
+	bottom: 290px;
+}
