@@ -22,6 +22,7 @@ var event = [
         }
     ];
 
+loadCountDown(event);
 $('#calendar').fullCalendar({
     theme: false,
     buttonText: {

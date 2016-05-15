@@ -1,3 +1,6 @@
+
+showschedule();
+drawraderchart();
 function showschedule() {
 	var html='';
     var courseName = new Array("文理基础","通识选修","专业必修","政治选修","专业选修","六大模块");
