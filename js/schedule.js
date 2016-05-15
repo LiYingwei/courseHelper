@@ -1,3 +1,22 @@
+var data = {
+    labels : ["文理基础","通识选修","专业必修","政治选修","专业选修","六大模块"],
+    datasets : [
+        {
+            fillColor : "rgba(220,220,220,0.5)",
+            strokeColor : "rgba(220,220,220,1)",
+            pointColor : "rgba(220,220,220,1)",
+            pointStrokeColor : "#fff",
+            data : [60,30,20,50,80,66]
+        },
+        {
+            fillColor : "rgba(151,187,205,0)",
+            strokeColor : "rgba(151,187,205,0)",
+            pointColor : "rgba(151,187,205,0)",
+            pointStrokeColor : "#fff",
+            data : [100,100,100,100,100,100]
+        }
+    ]
+}
 
 showschedule();
 drawraderchart();
@@ -120,25 +139,6 @@ function showChartForm(No) {
     $('#classReference2').html(html);
 }
 
-var data = {
-    labels : ["文理基础","通识选修","专业必修","政治选修","专业选修","六大模块"],
-    datasets : [
-        {
-            fillColor : "rgba(220,220,220,0.5)",
-            strokeColor : "rgba(220,220,220,1)",
-            pointColor : "rgba(220,220,220,1)",
-            pointStrokeColor : "#fff",
-            data : [60,30,20,50,80,66]
-        },
-        {
-            fillColor : "rgba(151,187,205,0)",
-            strokeColor : "rgba(151,187,205,0)",
-            pointColor : "rgba(151,187,205,0)",
-            pointStrokeColor : "#fff",
-            data : [100,100,100,100,100,100]
-        }
-    ]
-}
 
 function drawraderchart() {
     //Get context with jQuery - using jQuery's .get() method.

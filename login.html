@@ -24,35 +24,9 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
   </head>
   <body>
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-        <a class="navbar-brand" href="#">帮你排课！</a>
-      </div>
-      <div class="collapse navbar-collapse" id="navbar-collapse-01">
-        <ul class="nav navbar-nav navbar-left">
-          <li id="tab1"><a href="#fakelink" onclick="loadtab1()">课程表</a></li>
-          <li id="tab2"><a href="#fakelink" onclick="loadtab2()">培养方案</a></li>
-          <li id="tab3"><a href="#fakelink" onclick="loadtab3()">考试时间</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#fakelink"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
-          <li><a href="login.html">登陆</a></li>
-        </ul>
-        <form class="navbar-form navbar-right" action="#" role="search">
-          <div class="form-group">
-            <div class="input-group">
-              <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
-              <span class="input-group-btn">
-                <button type="submit" class="btn"><span class="fui-search"></span></button>
-              </span>
-            </div>
-          </div>
-        </form>
-      </div><!-- /.navbar-collapse -->
-    </nav><!-- /navbar -->
+    <nav id="common-header" class="navbar navbar-default" role="navigation">
+      <!-- common head template -->
+    </nav>
 
     
     <div id="login" class="row" style="margin-top:20px">
@@ -91,6 +65,7 @@
     <script src="dist/js/flat-ui.min.js"></script>
     <script src="dist/js/vendor/Chart.min.js"></script>
     <script src="docs/assets/js/application.js"></script>
+    <script src="header/header.js"></script>
     <script src="js/login.js"></script>
   </body>
 </html>
