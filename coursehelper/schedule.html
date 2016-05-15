@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
 
     <!-- Loading Bootstrap -->
-    <link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Loading Flat UI -->
-    <link href="dist/css/flat-ui.css" rel="stylesheet">
-    <link href="docs/assets/css/demo.css" rel="stylesheet">
+    <link href="../dist/css/flat-ui.css" rel="stylesheet">
+    <link href="../docs/assets/css/demo.css" rel="stylesheet">
 
-    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="shortcut icon" href="../img/favicon.ico">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
@@ -32,9 +32,9 @@
       </div>
       <div class="collapse navbar-collapse" id="navbar-collapse-01">
         <ul class="nav navbar-nav navbar-left">
-          <li id="tab1"><a href="#fakelink" onclick="loadtab1()">课程表</a></li>
-          <li id="tab2"><a href="#fakelink" onclick="loadtab2()">培养方案</a></li>
-          <li id="tab3"><a href="#fakelink" onclick="loadtab3()">考试时间</a></li>
+          <li id="tab1"><a href="coursetable.html">课程表</a></li>
+          <li id="tab2"><a href="schedule.html">培养方案</a></li>
+          <li id="tab3"><a href="examtime.html">考试时间</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#fakelink"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
@@ -52,12 +52,6 @@
       </div><!-- /.navbar-collapse -->
     </nav><!-- /navbar -->
 
-    <div id="maintab1" class="container">
-      <div class="row">
-        <div id="coursetable" class="col-xs-12">
-        </div>
-      </div>
-    </div>
 
     <div id="maintab2" class="container">
       <div class="row">
@@ -100,14 +94,11 @@
         <!--table></table-->
       </div>
     </div>
-
-    <script src="dist/js/vendor/jquery.min.js"></script>
-    <script src="dist/js/vendor/video.js"></script>
-    <script src="dist/js/flat-ui.min.js"></script>
-    <script src="dist/js/vendor/Chart.min.js"></script>
-    <script src="docs/assets/js/application.js"></script>
-    <script src="js/coursetable.js"></script>
-    <script src="js/schedule.js"></script>
-    <script src="js/index.js"></script>
+    <script src="../dist/js/vendor/jquery.min.js"></script>
+    <script src="../dist/js/vendor/video.js"></script>
+    <script src="../dist/js/flat-ui.min.js"></script>
+    <script src="../dist/js/vendor/Chart.min.js"></script>
+    <script src="../docs/assets/js/application.js"></script>
+    <script src="../js/schedule.js"></script>
   </body>
 </html>

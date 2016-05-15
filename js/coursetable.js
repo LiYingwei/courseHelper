@@ -1,6 +1,6 @@
-/*$(document).ready(function(){
+$(document).ready(function(){
 	drawcoursetable();
-})*/
+});
 function drawcoursetable() {
 	var tablehtml;
 	tablehtml = '<table class="table table-bordered">';
