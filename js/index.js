@@ -6,7 +6,7 @@ $(document).ready(function(){
 	//drawcoursetable();
     //showschedule();
     //drawraderchart();
-})
+});
 
 function loadtab1()
 {
