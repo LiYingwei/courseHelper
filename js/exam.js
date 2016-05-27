@@ -11,28 +11,28 @@ var testExamInfo = [
             start  : '2016-05-10',
             time   : '08:00',
             position:'Z2333',
-            method : '论文'
+            method : '1'
         },
         {
             title  : '十遍含数',
             start  : '2016-05-23',
             time   : '02:20',
             position:'H2222',
-            method : '闭卷'
+            method : '2'
         },
         {
             title  : '局部解剖学',
             start  : '2016-05-31',
             time   : '12:00',
             position:'F5201',
-            method : '开卷'
+            method : '3'
         },
         {
             title  : '鬼畜心理学',
             start  : '2016-05-31',
             time   : '17:00',
             position:'Z计算机机房1',
-            method : '开卷'
+            method : '1'
         }
     ];
 
@@ -87,7 +87,7 @@ function loadCountDown(examInfo) {
         str += '<td>' + examInfo[i].time + '</td>';
         str += '<td>' + examInfo[i].title + '</td>';
         str += '<td>' + examInfo[i].position + '</td>';
-        str += '<td>' + examInfo[i].method + '</td>';
+        str += '<td>' + $("select[name=method] option[value='" + examInfo[i].method + "']").text() + '</td>';
         str += '<td>' + '<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal" onclick="modifyExam(' + i + ')">\
   修改\
 </button>' + '&nbsp;<button type="button" class="btn btn-danger btn-xs" onclick="deleteExam(' + i + ')">删除</button>'
@@ -156,6 +156,7 @@ function commitModify()
     examInfo[modifiedItem].time=$("#modifyExamInfo #date_time").val().split(' ')[1];
     examInfo[modifiedItem].position=$("#modifyExamInfo #position").val();
     examInfo[modifiedItem].method=$("#modifyExamInfo #method").val();
+    console.log($("#modifyExamInfo #method").val());
 
     sortExamInfo();
     saveExamInfo();
