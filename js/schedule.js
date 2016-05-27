@@ -26,7 +26,9 @@ var data = {
 
     ]
 }
-getPersonalInfo();
+$(document).ready(function(){
+    getPersonalInfo();
+})
 
 
 
@@ -150,18 +152,6 @@ function drawraderchart() {
     //This will get the first returned node in the jQuery collection.
     var myNewChart = new Chart(ctx).Radar(data);
 }
-function getPersonalInfo()
-{
-    if(localStorage["person"]==undefined)
-    {
-        alert("请先点击右上角登陆/同步以获取你的个人信息~");
-    }
-    else
-    {
-        person=eval("["+localStorage["person"]+"]")[0];
-    }
-}
-
 function drawPieChart() {
     //A A- B+ B B- C+ C C- D D- F
     var grade = [0.8,0.8,0.8,0.8];
@@ -262,5 +252,25 @@ function drawPieChart() {
             <li>pre占25%，期中20%，期末60%，平时15%</li>\
         </ul>');*/
 }
+function getPersonalInfo()
+{
+    if(localStorage["person"]==undefined)
+    {
+        alert("请先点击右上角登陆/同步以获取你的个人信息~");
+    }
+    else
+    {
+        person=eval("["+localStorage["person"]+"]")[0];
+        $("#pname").text(person.name);
+        $("#pyear").text(person.year);
+        $("#pdepartment").text(person.department);
+        $("#pavgscore").text('过低');
+        $("#pmajor").text(person.major);
+        $("#psex").text(person.sex);
+        $("#pallcredits").text(person.credits);
+        $("#pneedcredits").text(152);
+    }
+}
+
 
 
