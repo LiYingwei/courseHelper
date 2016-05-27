@@ -1,3 +1,4 @@
+$("#login_goto").attr("value",window.location.href.replace("login.html","getdata.html"));
 $(function(){
     $('.button-checkbox').each(function(){
 		var $widget = $(this),

@@ -1,3 +1,4 @@
+var person={};
 var data = {
     labels : ["文理基础","通识选修","专业必修","政治选修","专业选修","六大模块"],
     datasets : [
@@ -17,7 +18,7 @@ var data = {
         }
     ]
 }
-
+getPersonalInfo();
 showschedule();
 drawraderchart();
 function showschedule() {
@@ -145,4 +146,15 @@ function drawraderchart() {
     var ctx = $("#radarChart").get(0).getContext("2d");
     //This will get the first returned node in the jQuery collection.
     var myNewChart = new Chart(ctx).Radar(data);
+}
+function getPersonalInfo()
+{
+    if(localStorage["person"]==undefined)
+    {
+        alert("请先点击右上角登陆/同步以获取你的个人信息~");
+    }
+    else
+    {
+        person=eval("["+localStorage["person"]+"]")[0];
+    }
 }
