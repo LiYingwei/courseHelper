@@ -26,6 +26,7 @@ var data = {
 
     ]
 }
+initCoursetype();
 $(document).ready(function(){
     getPersonalInfo();
 })
@@ -129,13 +130,13 @@ function showChartForm(No) {
         </tr>\
     </thead>';
     html += '<tbody>';
-    for(var i=0;i<classReference.reference[No-1].length;i++)
+    for(var i=0;i<typelist[No].length;i++)
     {
         html += '<tr>';
-        html += '<td>' + classReference.reference[No-1][i].type + '</td>';
-        html += '<td>' + classReference.reference[No-1][i].need + '</td>';
-        html += '<td>' + classReference.reference[No-1][i].total + '</td>';
-        html += '<td class="className" data-toggle="modal" onclick="setTimeout(\'drawPieChart()\',50)" data-target="#courseInfo">' + classReference.reference[No-1][i].class + '</td>';
+        html += '<td>' + typelist[No][i].name + '</td>';
+        html += '<td>' + typelist[No][i].credits + '</td>';
+        html += '<td>' + 0 + '</td>';
+        html += '<td class="className" data-toggle="modal" onclick="setTimeout(\'drawPieChart()\',50)" data-target="#courseInfo">' + '本学期没开设'; + '</td>';
         html += '<td>' + '<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#selectCousre">选课</button>' + '</td>';
         html += '</tr>';
     }
