@@ -1,3 +1,4 @@
+var person={};
 var data = {
     labels : ["文理基础","通识选修","专业必修","政治选修","专业选修","六大模块"],
     datasets : [
@@ -25,6 +26,9 @@ var data = {
 
     ]
 }
+$(document).ready(function(){
+    getPersonalInfo();
+})
 
 
 
@@ -148,7 +152,6 @@ function drawraderchart() {
     //This will get the first returned node in the jQuery collection.
     var myNewChart = new Chart(ctx).Radar(data);
 }
-
 function drawPieChart() {
     //A A- B+ B B- C+ C C- D D- F
     var grade = [0.8,0.8,0.8,0.8];
@@ -248,6 +251,25 @@ function drawPieChart() {
             <li>虽然实现项目码代码花了很多时间，但是报告真的很重要！！因为报告中包括了做项目的全部过程，比如纸模型，调研之类的。老师更关注这些。</li>\
             <li>pre占25%，期中20%，期末60%，平时15%</li>\
         </ul>');*/
+}
+function getPersonalInfo()
+{
+    if(localStorage["person"]==undefined)
+    {
+        alert("请先点击右上角登陆/同步以获取你的个人信息~");
+    }
+    else
+    {
+        person=eval("["+localStorage["person"]+"]")[0];
+        $("#pname").text(person.name);
+        $("#pyear").text(person.year);
+        $("#pdepartment").text(person.department);
+        $("#pavgscore").text('过低');
+        $("#pmajor").text(person.major);
+        $("#psex").text(person.sex);
+        $("#pallcredits").text(person.credits);
+        $("#pneedcredits").text(152);
+    }
 }
 
 
