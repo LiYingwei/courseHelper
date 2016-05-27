@@ -142,6 +142,7 @@ function modifyExam(examInfoIndex)
         $("#modifyExamInfo #date_time").val(examInfo[examInfoIndex].start + ' ' + examInfo[examInfoIndex].time);
         $("#modifyExamInfo #position").val(examInfo[examInfoIndex].position);
         $("#modifyExamInfo #method").val(examInfo[examInfoIndex].method);
+        $('.selectpicker').selectpicker('val', examInfo[examInfoIndex].method);
     }
 }
 function commitModify()
@@ -156,7 +157,6 @@ function commitModify()
     examInfo[modifiedItem].time=$("#modifyExamInfo #date_time").val().split(' ')[1];
     examInfo[modifiedItem].position=$("#modifyExamInfo #position").val();
     examInfo[modifiedItem].method=$("#modifyExamInfo #method").val();
-    console.log($("#modifyExamInfo #method").val());
 
     sortExamInfo();
     saveExamInfo();
