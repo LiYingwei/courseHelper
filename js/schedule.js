@@ -131,60 +131,13 @@ function showChartForm(No) {
         html += '<td>' + classReference.reference[No-1][i].type + '</td>';
         html += '<td>' + classReference.reference[No-1][i].need + '</td>';
         html += '<td>' + classReference.reference[No-1][i].total + '</td>';
-        html += '<td class="className" data-toggle="modal" onclick="setTimeout(\'drawPieChart()\',50)" data-target="#courseInfo'+ (No-1) + '_' + i+'">' + classReference.reference[No-1][i].class + '</td>';
-        html += '<div class="courseInfo modal fade bs-example-modal-lg" id="courseInfo'+ (No-1) + '_' + i+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\
-                    <div class="modal-dialog modal-lg" role="document">\
-                    <div class="modal-content">\
-                      <div class="modal-header">\
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                        <h4 class="modal-title" id="myModalLabel">'+ classReference.reference[No-1][i].class +'</h4>\
-                      </div>\
-                      <div class="modal-body">\
-                        <div id="basicInfo" class="row">\
-                        </div>\
-                        <div id="bbsInfo" class="row">\
-                        </div>\
-                        <div class="row">\
-                            <div class="col-xs-6">\
-                                <div id="scoreInfo" class="row">\
-                                    <h6>评分要求</h6>\
-                                </div>\
-                                <div class="row">\
-                                    <p align="center"><a href="http://xk.fudan.edu.cn/fdeams/syllabusUpload!download.action?kcdm=911.020.1&jsgh=20073"> 课程大纲下载 </a></p>\
-                                </div>\
-                            </div>\
-                            <div class="col-xs-6">\
-                                <canvas id="pieChart" class="raw" width="300px" height="300px"></canvas>\
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPA分布情况</p>\
-                            </div>\
-                        </div>\
-                      </div>\
-                      <div class="modal-footer">\
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>\
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectCousre'+ (No-1) + '_' + i+'">选课</button>\
-                      </div>\
-                    </div>\
-                  </div>\
-                </div>'+ '</td>';
-
-        html += '<td>' + '<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#selectCousre'+ (No-1) + '_' + i+'">选课</button>' ;
-        html += '<div class="modal fade" id="selectCousre'+ (No-1) + '_' + i+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">\
-                    <div class="modal-dialog" role="document">\
-                    <div class="modal-content">\
-                      <div class="modal-header">\
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                        <h4 class="modal-title" id="myModalLabel">选课成功</h4>\
-                      </div>\
-                      <div class="modal-body">\
-                        已经排到你的课表上\
-                      </div>\
-                    </div>\
-                  </div>\
-                </div>'+ '</td>';
+        html += '<td class="className" data-toggle="modal" onclick="setTimeout(\'drawPieChart()\',50)" data-target="#courseInfo">' + classReference.reference[No-1][i].class + '</td>';
+        html += '<td>' + '<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#selectCousre">选课</button>' + '</td>';
         html += '</tr>';
     }
     html += '</tbody>';
     html += '</table>';
+    console.log(html);
     $('#classReference2').html(html);
 }
 
@@ -206,7 +159,7 @@ function drawPieChart() {
         grade[i] = Math.floor(grade[i] * 100 / sum);
     var pieData = [
     {
-        value: grade[0],
+        value: 170,
         label: 'A',
         color: "#F38630",
         labelColor : 'white',
@@ -258,7 +211,7 @@ function drawPieChart() {
     var ctx = $("#pieChart").get(0).getContext("2d");
     var pieChart = new Chart(ctx).Pie(pieData, pieOptions);
 
-    $('#basicInfo').html('<h6>基本信息</h6>\
+    /*$('#basicInfo').html('<h6>基本信息</h6>\
         <table class="table">\
                                 <tr>\
                                     <th>课程序号</th>\
@@ -284,17 +237,17 @@ function drawPieChart() {
                                     <th>地点</th>\
                                     <td>Z2333</td>\
                                 </tr> \
-                            </table>');
-    $('#bbsInfo').html('<h6>BBS评价</h6>\
+                            </table>');*/
+    /*$('#bbsInfo').html('<h6>BBS评价</h6>\
         <ul>\
             <li>这门课虽然是计算机系专业课但是涉及心理学，社会学等多学科的交叉，一学期上下来收获很大！</li>\
             <li>美女老师人很好！和颜悦色通情达理而且还找来新加坡的教授来给我们讲座！</li>\
-        </ul>');
-    $('#scoreInfo').html('<h6>评分要求</h6>\
+        </ul>');*/
+    /*$('#scoreInfo').html('<h6>评分要求</h6>\
         <ul>\
             <li>虽然实现项目码代码花了很多时间，但是报告真的很重要！！因为报告中包括了做项目的全部过程，比如纸模型，调研之类的。老师更关注这些。</li>\
             <li>pre占25%，期中20%，期末60%，平时15%</li>\
-        </ul>');
+        </ul>');*/
 }
 
 
