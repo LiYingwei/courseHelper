@@ -7,7 +7,7 @@ var data = {
             strokeColor : "rgba(220,220,220,1)",
             pointColor : "rgba(220,220,220,1)",
             pointStrokeColor : "#fff",
-            data : [30,20,50,80,66,60]  //顺序是 通识-》专业-》政治-》专选-》六模-》基础
+            data : [0,0,0,0,0,0]  //顺序是 通识-》专业-》政治-》专选-》六模-》基础
         },
         {
             fillColor : "rgba(151,187,205,0)",
@@ -29,8 +29,11 @@ var data = {
 initCoursetype();
 $(document).ready(function(){
     getPersonalInfo();
-})
+    calcPersonComplete();
+    drawGraphByData();
+    drawraderchart();
 
+});
 
 
 /*var pieData = {
@@ -55,12 +58,15 @@ $(document).ready(function(){
         }]
     };*/
 
-showschedule();
-drawraderchart();
-function showschedule() {
-	var html='';
-    var courseName = new Array("文理基础","通识选修","专业必修","政治选修","专业选修","六大模块");
-    var completeRate = new Array("60%","30%","20%","50%","80%","66%");
+//showschedule();
+function calcCompleteRate(id){
+    return (completecreditslist[id]*100/requiredcreditslist[id]).toFixed(1) + "%";
+}
+function drawGraphByData(){
+
+    var html='';
+    var courseName = ["文理基础","通识选修","专业必修","政治选修","专业选修","六大模块"];
+    var completeRate = [calcCompleteRate(0),calcCompleteRate(1),calcCompleteRate(2),calcCompleteRate(3),calcCompleteRate(4),calcCompleteRate(5)];
 
     for(var i=0;i<6;i++)
     {
@@ -73,7 +79,9 @@ function showschedule() {
             </div>\
           </div>';
     }
-	$('#scheduleprogress').html(html);
+    $('#scheduleprogress').html(html);
+}
+function showschedule() {
 }
 
 var classReference = {
@@ -136,7 +144,7 @@ function showChartForm(No) {
         html += '<td>' + typelist[No][i].name + '</td>';
         html += '<td>' + typelist[No][i].credits + '</td>';
         html += '<td>' + 0 + '</td>';
-        html += '<td class="className" data-toggle="modal" onclick="setTimeout(\'drawPieChart()\',50)" data-target="#courseInfo">' + '本学期没开设'; + '</td>';
+        html += '<td class="className" data-toggle="modal" onclick="setTimeout(\'drawPieChart()\',50)" data-target="#courseInfo">' + '本学期没开设' + '</td>';
         html += '<td>' + '<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#selectCousre">选课</button>' + '</td>';
         html += '</tr>';
     }
@@ -268,7 +276,7 @@ function getPersonalInfo()
         $("#pavgscore").text('过低');
         $("#pmajor").text(person.major);
         $("#psex").text(person.sex);
-        $("#pallcredits").text(person.credits);
+        $("#pallcredits").text(person.calcredits);
         $("#pneedcredits").text(152);
     }
 }

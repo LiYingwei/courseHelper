@@ -50,12 +50,19 @@ function extractPersonInfo(textGet)
 	personGet.major=strBetween(textGet,"专业：\t","\n");
 	personGet.credits=strBetween(textGet,"总学分：\t","\t");
 	personGet.courses=[];
-	var regex =new RegExp( /\t[A-Z]{3,4}[0-9]{5,6}\t/g);
+	personGet.calcredits=0;
+	var regex =new RegExp( /\t[A-Z]{3,4}[0-9]{5,6}\t[^\t]*\t[^\t]*\t/g);
 	var getCourses=textGet.match(regex);
 	for(var i in getCourses)
 	{
-		str=getCourses[i];
-		personGet.courses.push(str.replace('\t',''));
+		str=getCourses[i].split('\t');
+		console.log(str[1] + ":" + str[3]);
+		if(str[1]=="ENGL110902")//FET或FCT
+		{
+			continue;
+		}
+		personGet.courses.push({no:str[1],credits:str[3]});
+		personGet.calcredits+=parseFloat(str[3]);
 	}
 	localStorage["person"]=JSON.stringify(personGet);
 	window.location.href="schedule.html";
