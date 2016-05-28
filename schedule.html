@@ -80,68 +80,71 @@
       <div class="row">
         <!--table></table-->
       </div>
-      <div class="courseInfo modal fade bs-example-modal-lg" id="courseInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal_courseDetail modal fade bs-example-modal-lg" id="modal_courseDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="myModalLabel">哲学导论</h4></div>
+                      <h4 class="modal-title" id="dtitle">哲学导论</h4></div>
                   <div class="modal-body">
                       <div id="basicInfo" class="row">
                           <h6>基本信息</h6>
                           <table class="table">
                               <tr>
                                   <th>课程序号</th>
-                                  <td>COMP130001.01</td>
-                                  <th>联系方式</th>
-                                  <td>couresHelper@fudan.edu.cn</td>
+                                  <td id="dclassno">COMP130001.01</td>
+                                  <th>学分</th>
+                                  <td id="dcredits"></td>
                               </tr>
                               <tr>
                                   <th>课程名称</th>
-                                  <td>人机交互</td>
-                                  <th>作业量</td>
-                                  <td>每周额外2小时</td>
+                                  <td id="dcoursename">人机交互</td>
+                                  <th>课程类别</td>
+                                  <td id="dcoursetypename"></td>
                               </tr>
                               <tr>
                                   <th>教师</th>
-                                  <td>丁向华</td>
+                                  <td id="dteacher">丁向华</td>
                                   <th>考试时间</th>
-                                  <td>2016.6.22</th>
+                                  <td id="dexamtime">2016.6.22</th>
                               </tr>
                               <tr>
-                                  <th>时间</th>
-                                  <td>周二8-9</td>
-                                  <th>地点</th>
-                                  <td>Z2333</td>
+                                  <th>上课时间</th>
+                                  <td id="dtime">周二8-9</td>
+                                  <th>上课地点</th>
+                                  <td id="dplace">Z2333</td>
                               </tr> 
                           </table>
                       </div>
-                      <div id="bbsInfo" class="row">
+                      <div class="row">
+                        <div id="bbsInfo" class="col-xs-6">
                           <h6>BBS评价</h6>
-                          <ul>
-                              <li>这门课虽然是计算机系专业课但是涉及心理学，社会学等多学科的交叉，一学期上下来收获很大！</li>
-                              <li>美女老师人很好！和颜悦色通情达理而且还找来新加坡的教授来给我们讲座！</li>
+                          <ul id="dbbs">
+                                <li>这门课虽然是计算机系专业课但是涉及心理学，社会学等多学科的交叉，一学期上下来收获很大！</li>
+                                <li>美女老师人很好！和颜悦色通情达理而且还找来新加坡的教授来给我们讲座！</li>
+                                <li>虽然实现项目码代码花了很多时间，但是报告真的很重要！！因为报告中包括了做项目的全部过程，比如纸模型，调研之类的。老师更关注这些。</li>
+                                <li>pre占25%，期中20%，期末60%，平时15%</li>
                           </ul>
+                        </div>
+                        <div class="col-xs-6">
+                          <canvas id="pieChart" class="raw" width="300px" height="300px"></canvas>
+                              <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPA分布情况</p>
+                        </div>
                       </div>
                       <div class="row">
                           <div class="col-xs-6">
                               <div id="scoreInfo" class="row">
-                                  <h6>评分要求</h6>
+                                  <h6>教学资源</h6>
                                   <ul>
-                                      <li>虽然实现项目码代码花了很多时间，但是报告真的很重要！！因为报告中包括了做项目的全部过程，比如纸模型，调研之类的。老师更关注这些。</li>
-                                      <li>pre占25%，期中20%，期末60%，平时15%</li>
+
                                   </ul>
                               </div>
                               <div class="row">
                                   <p align="center">
-                                      <a href="http://xk.fudan.edu.cn/fdeams/syllabusUpload!download.action?kcdm=911.020.1&jsgh=20073">课程大纲下载</a>
+                                      <a href="http://xk.fudan.edu.cn/fdeams/syllabusUpload!download.action?kcdm=911.020.1&jsgh=20073" id="doutline">课程大纲下载</a>
                                   </p>
                               </div>
-                          </div>
-                          <div class="col-xs-6">
-                              <canvas id="pieChart" class="raw" width="300px" height="300px"></canvas>
-                              <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPA分布情况</p>
                           </div>
                       </div>
                   </div>
@@ -177,9 +180,11 @@
     <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
     <script src="docs/assets/js/application.js"></script>
     <script src="header/header.js"></script>
-    <script src="js/common.js"></script>
+    <script src="js/examData.js"></script>
+    <script src="js/GPATool.js"></script>
     <script src="js/courseinfo.js"></script>
     <script src="js/coursetype.js"></script>
+    <script src="js/common.js"></script>
     <script src="js/schedule.js"></script>
   </body>
 </html>
