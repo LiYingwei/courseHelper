@@ -9,7 +9,7 @@ $(document).ready(function(){
 function drawcoursetable() {
 	var tablehtml;
 	tablehtml = '<table class="table table-bordered">';
-	tablehtml += '<thead>\
+	tablehtml += '<thead id=\"coursehead">\
               <tr>\
               	<th> 时间 </th>\
                 <th>星期日</th>\
@@ -48,7 +48,7 @@ function drawcoursetable() {
             }
         }
     }
-    tablehtml+='<tbody>';
+    tablehtml+='<tbody id = "coursebody">';
     for(var i = 1; i <= 14; ++i)
     {
     	tablehtml+='<tr>';
