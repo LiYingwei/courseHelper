@@ -1,8 +1,47 @@
 var typelist=[[],[],[],[],[],[]];
-var coursetype={};
 
-var requiredcreditslist=[];
-var completecreditslist=[];
+/*
+var classReference = {
+  "reference": [
+    [
+      {
+        "type": "理科基础",
+        "need": 40,
+        "total": 15,
+        "class": "数学分析（上）",
+        "classID": "MATH120000.00"
+      }
+    ],
+    [
+      {
+        "type": "通识选修",
+        "need": 2,
+        "total": 0,
+        "class": "哲学导论",
+        "classID": "PHIL110000.00"
+      }
+    ],
+    [],
+    [],
+    [],
+    [
+      {
+        "type": "一模",
+        "need": 2,
+        "total": 0,
+        "class": "古典诗词导读",
+        "classID": "CHIN119000.00"
+      },
+      {
+        "type": "一模",
+        "need": 2,
+        "total": 0,
+        "class": "小说",
+        "classID": "CHIN119001.00"
+      }
+    ]
+  ]
+}*/
 //文理基础
 typelist[0]=[
 {name:'数学分析B I',credits:5,list:['MATH120016']},
@@ -18,7 +57,7 @@ typelist[0]=[
 
 //通识教育
 typelist[1]=[
-{name:'英语',credits:10,list:
+{name:'英语',credits:8,list:
 	['SOCI170001','SOCI170002','SOCI170003','JOUR170001','POLI170001','POLI170002','ENVI170001','CHIN170001','CHIN170002','PHIL170002','PHIL170003','PHIL170004','PHIL170005','HIST170001','HIST170002','HIST170003','FINE170001','MANA170001','MANA170002','MANA170003','MANA170004','MANA170005','MANA170006','ECON170001','ECON170002','ECON170003','ECON170004','LAWS170001','JOUR170003','FORE170001','FORE170002','ENGL110049','ENGL110050','ENGL110051','ENGL110070','ENGL110059','ENGL110012','ENGL110033','ENGL110035','ENGL110036','ENGL110056','ENGL110060','ENGL110066','ENGL110043','ENGL110042','ENGL110068','ENGL110025','ENGL110064','ENGL110061','ENGL110062','ENGL110063','ENGL110045','ENGL110046','ENGL110047','ENGL110048','ENGL110055','ENGL110067','ENGL110009','ENGL110024','ENGL110069','ENGL110053','ENGL110054','ENGL110057','ENGL110065','FORE110040','FORE110041','FORE110042','FORE110043','FORE110044','FORE110045','FORE110046','FORE110047','FORE110048','FORE110049','FORE110050','FORE110051','FORE110052','FORE110053','FORE110054','FORE110055','FORE110056','FORE110057','FORE110058','FORE110059','FORE110060','FORE110064','FORE110065']
 },
 {name:'体育',credits:4,list:
@@ -101,74 +140,3 @@ typelist[5]=[
 {name:'第六模块',credits:2,list:
 ['FINE119002','FINE119003','FINE119004','FINE119005','FINE119006','FINE119007','HIST119027','MUSE119001','MUSE119002','MUSE119003','PTSS119004','PTSS119005','FINE110001','FINE110002','FINE110006','FINE110007','FINE110008','FINE110013','FINE110014','FINE110015','FINE110016','FINE110017','FINE110018','FINE110020','FINE110026','FINE110027','FINE110028','FINE110029','FINE110031','FINE110032','FINE110033','FINE110034','FINE110035','FINE110036','FINE110037','FINE110038','FINE110039','FINE110040','FINE110041','FINE110042','FINE110043','FINE110044','FINE110045','FINE110046','FINE110047','FINE110048','FINE110049','FINE110050','FINE110051','FINE110052','FINE110053','FINE110054','FINE110055','FINE110056','FINE110057','FINE110058','FINE110059','FINE110060','FINE110061','FINE110062','FINE110063','FINE110064','FINE110065','FINE110066','FINE110067','FINE110068','FINE110070','FINE110071','FINE110072','FINE110073','FINE110074','FINE110075','FINE110076']
 }];
-
-function initCoursetype()
-{
-	for(var i=0;i<6;++i)
-	{
-		requiredcreditslist[i]=i==4?-20.0:0.0;//专业选修分组
-		for(var s in typelist[i])
-		{
-			requiredcreditslist[i]+=typelist[i][s].credits;
-			for(var k in typelist[i][s].list)
-			{
-				var course=typelist[i][s].list[k];
-				coursetype[course]={};
-				coursetype[course].kind=i;
-				coursetype[course].attr=s;
-			}
-		}
-	}
-}
-function calcPersonComplete(){
-	var extraGeneral=0.0,extraAll=0.0;
-	for(var i=0;i<6;++i)
-	{
-		completecreditslist[i]=0.0;
-		for(var s in typelist[i])
-		{
-			typelist[i][s].complete=0.0;
-		}
-	}
-	for(var i in person.courses)
-	{
-		var c=person.courses[i];
-		console.log(coursetype[c.no]);
-		console.log(c.no);
-		if(coursetype[c.no]==undefined)
-		{
-			extraAll+=c.credits;
-			continue;
-		}
-		var kind=coursetype[c.no].kind,attr=coursetype[c.no].attr;
-		
-		typelist[kind][attr].complete+=parseFloat(c.credits);
-		if(typelist[kind][attr].complete>typelist[kind][attr].credits+0.01)
-		{
-			if(i==1||i==3||i==5)//通识课
-			{
-				extraGeneral+=typelist[kind][attr].complete-typelist[kind][attr].credit;
-			}
-			else
-			{
-				extraAll+=typelist[kind][attr].complete-typelist[kind][attr].credit;
-			}
-			typelist[kind][attr].complete=typelist[kind][attr].credits;
-		}
-	}
-	typelist[1][3].complete+=extraGeneral;
-	for(var i=0;i<6;++i)
-	{
-		for(var s in typelist[i])
-		{
-			completecreditslist[i]+=typelist[i][s].complete;
-		}
-		if(i==4)//专业选修分组
-		{
-			var firstSection=Math.max(typelist[1][0].complete,
-				typelist[1][1].complete,typelist[1][2].complete);
-			completecreditslist[i]=firstSection+
-				Math.max(completecreditslist[i]-firstSection,typelist[1][3].credits);
-		}
-	}
-}

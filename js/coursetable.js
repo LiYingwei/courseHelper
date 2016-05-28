@@ -1,6 +1,4 @@
-var courseInfo={};
-var selectableByTime=[];
-var selectedCourse=[];
+//my:585302,590248,583838,587271,586870,586521,588193,590458,585851,588041
 $(document).ready(function(){
     initCourseInfo();
     loadSelectedCourse();
@@ -110,56 +108,6 @@ function showCoursesResult(list)
     return res;
 }
 
-function initCourseInfo()
-{
-
-    for(var i = 1; i <= 14; i++)
-    {
-        selectableByTime[i]=[];
-        for(var j = 0; j < 7; j++)
-            selectableByTime[i][j]=[];
-    }
-    for(var i in lessonJSONs)
-    {
-        var cinfo=lessonJSONs[i];
-        courseInfo[cinfo.id]=cinfo;
-        courseInfo[cinfo.no]=cinfo;
-        for(var j in cinfo.arrangeInfo)
-        {
-            var arrange=cinfo.arrangeInfo[j];
-            arrange.cid=cinfo.id;
-            if(arrange.weekDay==7)arrange.weekDay=0;
-            for(var k=arrange.startUnit;k<=arrange.endUnit;++k)
-            {
-                selectableByTime[k][arrange.weekDay].push(arrange);
-            }
-        }
-    }
-}
-function getCoursesAtTime(unit,weekday)
-{
-    var res=[];
-    for(var i in selectableByTime[unit][weekday])
-    {
-        var arrange=selectableByTime[unit][weekday][i];
-        //console.log(arrange);
-        res.push(arrange);
-    }
-    //console.log(res);
-    return res;
-}
-function saveSelectedCourse()
-{
-    localStorage["SelectedCourse"]=selectedCourse.toString();
-}
-function loadSelectedCourse()
-{
-    if(localStorage["SelectedCourse"]==undefined)
-    {
-        localStorage["SelectedCourse"]="";
-    }
-    selectedCourse=eval("["+localStorage["SelectedCourse"]+"]");
-}
 function clearSelectedCourse()
 {
     selectedCourse=[];
