@@ -91,12 +91,14 @@ function drawGraphByData(){
     for(var i=0;i<6;i++)
     {
         html+='<div class="row">\
-            <div class="col-xs-3">'
-              + courseName[i] +
-            '</div>\
+            <div class="col-xs-3">\
+                <a href="javascript:showChartForm('+i+');">' +
+                    courseName[i] +
+                '</a>\
+            </div>\
             <div class="progress" style="margin-top: 10px;margin-bottom: 10px;">\
                 <div class="progress-bar" style="width: ' + completeRate[i] + ';">' + completeRate[i] +'</div>\
-                <div class="progress-bar" style="width: ' + plannedRate[i] + ';background:blue;">' + plannedRate[i] +'</div>\
+                <div class="progress-bar" style="width: ' + plannedRate[i] + ';background:orange;">' + plannedRate[i] +'</div>\
             </div>\
           </div>';
     }
@@ -126,7 +128,7 @@ function showChartForm(No) {
         html += '<td>' + typelist[No][i].credits + '</td>';
         html += '<td>' + typelist[No][i].complete + '</td>';
         html += '<td>' + (typelist[No][i].planned-typelist[No][i].complete) + '</td>';
-        html += '<td class="className" data-toggle="modal" onclick="showCourseDetail(\''+'COMP130138.01'+'\')" data-target="#modal_courseDetail">' + (typelist[No][i].planned+0.01>typelist[No][i].credits?'':'本学期没开设') + '</td>';
+        html += '<td class="className" data-toggle="modal" onclick="showCourseDetail(\''+'COMP130138.01'+'\')">' + (typelist[No][i].planned+0.01>typelist[No][i].credits?'':'本学期没开设') + '</td>';
         html += '<td>' + '<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#selectCousre">更多</button>' + '</td>';
         html += '</tr>';
     }

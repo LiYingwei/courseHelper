@@ -101,7 +101,8 @@ function showCoursesResult(list)
         var cid=arrange.cid;
         var cinfo=courseInfo[cid];
         res+="<tr><td>" + cinfo.no + "</td><td>" + 
-            cinfo.name + "</td><td>" + cinfo.credits + "</td><td>"
+            "<a href=\"javascript:showCourseDetail('" + cinfo.no + "');\">" + cinfo.name + "</a>" + "</td><td>"
+            + cinfo.credits + "</td><td>"
             + cinfo.teachers + "</td><td>" + arrange.startUnit + "-" + arrange.endUnit + "</td><td>" + "0" + 
             '</td><td><a title="选课" href="###" onclick="selectCourse(' + cinfo.id + ')">选课</a></td></tr>';
     }

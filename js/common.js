@@ -255,6 +255,7 @@ function drawPieChart() {
 }
 function showCourseDetail(cno)
 {
+	$('#modal_courseDetail').modal('show');
 	setTimeout('drawPieChart()',50);
 	$("#dclassno").text(cno);
 	$("#dcoursename").text(courseInfo[cno].name);
