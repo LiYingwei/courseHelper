@@ -52,3 +52,93 @@
 	right: 80px;
 	bottom: 290px;
 }
+
+.navbar-default {
+  background-color: #625d65;
+  border-color: #8e8d98;
+}
+.navbar-default .navbar-brand {
+  color: #ffffff;
+  width: 165px;
+
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #d2d2d2;
+}
+.navbar-default .navbar-text {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #d2d2d2;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #d2d2d2;
+  background-color: #8e8d98;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #d2d2d2;
+  background-color: #8e8d98;
+}
+.navbar-default .navbar-toggle {
+  border-color: #8e8d98;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #8e8d98;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #ffffff;
+}
+.navbar-default .navbar-link {
+  color: #ffffff;
+}
+.navbar-default .navbar-link:hover {
+  color: #d2d2d2;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #ffffff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #d2d2d2;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #d2d2d2;
+    background-color: #8e8d98;
+  }
+}
+
+#coursehead>tr>th {
+	height: 40px;
+	background-color: #fff;
+	color: #000;
+	font-size: 16px;
+	text-align: center;
+	vertical-align: middle;
+}
+#coursebody>tr {
+	height: 40px;
+	background-color: #fff;
+	color: #000;
+	font-size: 16px;
+	text-align: center;
+	vertical-align: middle;
+}
