@@ -130,7 +130,7 @@
 	height: 40px;
 	background-color: #fff;
 	color: #000;
-	font-size: 16px;
+	font-size: 14px;
 	text-align: center;
 	vertical-align: middle;
 }
@@ -138,7 +138,10 @@
 	height: 40px;
 	background-color: #fff;
 	color: #000;
-	font-size: 16px;
+	font-size: 14px;
 	text-align: center;
+}
+#coursebody>tr>td {
 	vertical-align: middle;
+	padding: 2px;
 }
