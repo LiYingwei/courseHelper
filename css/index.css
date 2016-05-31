@@ -54,7 +54,7 @@
 }
 
 .navbar-default {
-  background-color: #625d65;
+  background-color: #555555;
   border-color: #8e8d98;
 }
 .navbar-default .navbar-brand {
@@ -125,23 +125,40 @@
     background-color: #8e8d98;
   }
 }
-
+#coursehead>tr {
+	border-radius: 10px;
+	border-color: rgba(144, 146, 147, 0.3);
+}
 #coursehead>tr>th {
 	height: 40px;
+	width: auto;
 	background-color: #fff;
 	color: #000;
 	font-size: 14px;
 	text-align: center;
 	vertical-align: middle;
+	border-color: rgba(144, 146, 147, 0.3);
 }
 #coursebody>tr {
 	height: 40px;
+	width: auto;
 	background-color: #fff;
 	color: #000;
 	font-size: 14px;
 	text-align: center;
+	vertical-align: middle;
+	border-color: rgba(144, 146, 147, 0.3);
 }
 #coursebody>tr>td {
 	vertical-align: middle;
 	padding: 2px;
+	border: 1px solid rgba(144, 146, 147, 0.3);
+}
+#infotable>tr>th {
+	text-align: center;
+	vertical-align: middle;
+}
+#infotable>tr>td {
+	text-align: center;
+	vertical-align: middle;
 }
