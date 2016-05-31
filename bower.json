@@ -27,7 +27,8 @@
     "select2": "~3.5.1"
   },
   "dependencies": {
-    "videojs": "~4.7.2"
+    "videojs": "~4.7.2",
+    "handlebars": "^4.0.5"
   },
   "resolutions": {
     "jquery": "~1.11.1"
