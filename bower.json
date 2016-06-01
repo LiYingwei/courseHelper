@@ -28,9 +28,11 @@
   },
   "dependencies": {
     "videojs": "~4.7.2",
-    "handlebars": "^4.0.5"
+    "handlebars": "^4.0.5",
+    "typeahead.js": "^0.11.1"
   },
   "resolutions": {
-    "jquery": "~1.11.1"
+    "jquery": "~1.11.1",
+    "typeahead.js": "^0.11.1"
   }
 }
