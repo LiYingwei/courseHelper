@@ -2,6 +2,7 @@
 $(document).ready(function(){
     initCourseInfo();
     loadSelectedCourse();
+    loadMyExams();
 	drawcoursetable();
 });
 function drawcoursetable() {
@@ -19,16 +20,17 @@ function drawcoursetable() {
                 <th style = "border-top-right-radius: 20px">星期六</th>\
               </tr>\
             </thead>';
-    var selectedAtTime=[];
-    var selectedArrangeAtTime=[];
+    var visibleCell=[];
     for(var i = 1; i <= 14; ++i)
     {
         selectedAtTime[i]=[];
         selectedArrangeAtTime[i]=[];
+        visibleCell[i]=[];
         for(var j = 0; j < 7; ++j)
         {
             selectedAtTime[i][j]=0;
             selectedArrangeAtTime[i][j]=undefined;
+            visibleCell[i][j]=true;
         }
     }
     for(var i in selectedCourse)
@@ -42,7 +44,9 @@ function drawcoursetable() {
             selectedArrangeAtTime[arrange.startUnit][arrange.weekDay]=arrange;
             for(var k=arrange.startUnit+1;k<=arrange.endUnit;++k)
             {
-                selectedAtTime[k][arrange.weekDay]=-1;
+                selectedAtTime[k][arrange.weekDay]=selectedCourse[i];
+                selectedArrangeAtTime[k][arrange.weekDay]=arrange;
+                visibleCell[k][arrange.weekDay]=false;
             }
         }
     }
@@ -54,18 +58,19 @@ function drawcoursetable() {
         else tablehtml+='<td>第' + i + '节</td>';
     	for(var j = 0; j < 7; ++j)
         {
-            if(selectedAtTime[i][j]<0)continue;
+            if(!visibleCell[i][j])continue;
             tablehtml+='<td class="xkCell" unit=' + i + ' weekday=' + j;
             if(i == 14 && j == 6) tablehtml+='<td style = "border-bottom-right-radius: 20px">';
             var arrange=selectedArrangeAtTime[i][j];
+            var cinfo;
             if(selectedAtTime[i][j]>0)
             {
-                tablehtml+=' rowspan=' + (arrange.endUnit-arrange.startUnit+1);
+                cinfo=courseInfo[selectedAtTime[i][j]];
+                tablehtml+=' cid="' + cinfo.no + '" rowspan=' + (arrange.endUnit-arrange.startUnit+1);
             }
             tablehtml+='>';
             if(selectedAtTime[i][j]>0)
             {
-                var cinfo=courseInfo[selectedAtTime[i][j]];
                 tablehtml+=cinfo.no + '<br />' + cinfo.name;
             }
             else if(selectedAtTime[i][j]==0)
@@ -85,16 +90,22 @@ function drawcoursetable() {
         $(this).css("background-color","#EEEEEE");
     },function(){
         $(this).css("background-color","white");
-    }).click(function(){
-        $("#tipPanel tbody").html(showCoursesResult(getCoursesAtTime(
-            $(this).attr("unit"),$(this).attr("weekday")
-        )));
-        $("#tipPanel").hide().fadeIn("fast")
-        .css("top",$(this).offset().top+$(this).height()/2)
-        .css("left",$(this).offset().left+$(this).width()/2);
+    }).unbind('click').click(function(){
+        if($(this).attr("cid")!=undefined){
+            showCourseDetail($(this).attr("cid"));
+        }
+        else{
+            $("#tipPanel tbody").html(getCoursesResult(getCoursesAtTime(
+                $(this).attr("unit"),$(this).attr("weekday")
+            )));
+            $('[data-toggle="tooltip"]').tooltip();
+            $("#tipPanel").hide().fadeIn("fast")
+            .css("top",$(this).offset().top+$(this).height()/2)
+            .css("left",$(this).offset().left+$(this).width()/2);
+        }
     });
 }
-function showCoursesResult(list)
+function getCoursesResult(list)
 {
     var res="";
     for(var i in list)
@@ -106,21 +117,25 @@ function showCoursesResult(list)
             "<a href=\"javascript:showCourseDetail('" + cinfo.no + "');\">" + cinfo.name + "</a>" + "</td><td>"
             + cinfo.credits + "</td><td>"
             + cinfo.teachers + "</td><td>" + arrange.startUnit + "-" + arrange.endUnit + "</td><td>" + "0" + 
-            '</td><td><a title="选课" href="###" onclick="selectCourse(' + cinfo.id + ')">选课</a></td></tr>';
+            '</td><td>';
+            var test=selectableTest(cid);
+            if(test.able==1)
+            {
+                res+='<a title="选课" href="#" onclick="selectCourse(' + cinfo.id + ')">选课</a>'
+            }
+            else if(test.able==0)
+            {
+                res+='<span class="glyphicon glyphicon-exclamation-sign" style="color:red" aria-hidden="true"></span>';
+                res+='<a href="javascript:void(0);" style="color:red" data-toggle="tooltip" data-placement="left" title="'+
+                test.error+'">'+test.short+'</a>'
+            }
+            else if(test.able==-1)
+            {
+                res+='<span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>';
+               res+='<a href="javascript:void(0);" style="color:orange" data-toggle="tooltip" data-placement="left" title="'+
+                test.error+'" onclick="selectCourse(' + cinfo.id + ')">选课</a>'
+            }
+            res+='</td></tr>';
     }
     return res;
-}
-
-function clearSelectedCourse()
-{
-    selectedCourse=[];
-    saveSelectedCourse();
-    drawcoursetable();
-}
-function selectCourse(cid)
-{
-    selectedCourse.push(cid);
-    saveSelectedCourse();
-    $("#tipPanel").fadeOut("fast");
-    drawcoursetable();
 }

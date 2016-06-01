@@ -32,36 +32,46 @@
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="dtitle">课程详细信息</h4></div>
+              <h4 class="modal-title" id="dtitle">课程详细信息
+                <div style="float:right;padding:4px">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-primary select-course-button">选课</button>
+                  <button type="button" class="btn btn-danger withdraw-course-button">退课</button>
+                </div>
+              </h4>
+
+            </div>
           <div class="modal-body">
-              <div id="basicInfo" class="row">
-                  <h6>基本信息</h6>
-                  <table class="table">
-                      <tr>
-                          <th>课程序号</th>
-                          <td id="dclassno">COMP130001.01</td>
-                          <th>学分</th>
-                          <td id="dcredits"></td>
-                      </tr>
-                      <tr>
-                          <th>课程名称</th>
-                          <td id="dcoursename">人机交互</td>
-                          <th>课程类别</td>
-                          <td id="dcoursetypename"></td>
-                      </tr>
-                      <tr>
-                          <th>教师</th>
-                          <td id="dteacher">丁向华</td>
-                          <th>考试时间</th>
-                          <td id="dexamtime">2016.6.22</th>
-                      </tr>
-                      <tr>
-                          <th>上课时间</th>
-                          <td id="dtime">周二8-9</td>
-                          <th>上课地点</th>
-                          <td id="dplace">Z2333</td>
-                      </tr> 
-                  </table>
+              <div class="row">
+                <div id="basicInfo" class="col-xs-12">
+                    <h6>基本信息</h6>
+                    <table class="table">
+                        <tr>
+                            <th>课程序号</th>
+                            <td id="dclassno">COMP130001.01</td>
+                            <th>学分</th>
+                            <td id="dcredits"></td>
+                        </tr>
+                        <tr>
+                            <th>课程名称</th>
+                            <td id="dcoursename">人机交互</td>
+                            <th>课程类别</td>
+                            <td id="dcoursetypename"></td>
+                        </tr>
+                        <tr>
+                            <th>教师</th>
+                            <td id="dteacher">丁向华</td>
+                            <th>考试时间</th>
+                            <td id="dexamtime">2016.6.22</th>
+                        </tr>
+                        <tr>
+                            <th>上课时间</th>
+                            <td id="dtime">周二8-9</td>
+                            <th>上课地点</th>
+                            <td id="dplace">Z2333</td>
+                        </tr> 
+                    </table>
+                </div>
               </div>
               <div class="row">
                 <div id="bbsInfo" class="col-xs-6">
@@ -79,24 +89,24 @@
                 </div>
               </div>
               <div class="row">
-                  <div class="col-xs-6">
-                      <div id="scoreInfo" class="row">
-                          <h6>教学资源</h6>
-                          <ul>
+                <div id="scoreInfo" class="col-xs-12">
+                    <h6>教学资源</h6>
+                    <ul>
 
-                          </ul>
-                      </div>
-                      <div class="row">
-                          <p align="center">
-                              <a href="http://xk.fudan.edu.cn/fdeams/syllabusUpload!download.action?kcdm=911.020.1&jsgh=20073" id="doutline">课程大纲下载</a>
-                          </p>
-                      </div>
-                  </div>
+                    </ul>
+                </div>
+                <div class="row">
+                    <p align="center">
+                        <a href="http://xk.fudan.edu.cn/fdeams/syllabusUpload!download.action?kcdm=911.020.1&jsgh=20073" id="doutline">课程大纲下载</a>
+                    </p>
+                </div>
               </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectCousre1_0">选课</button></div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary select-course-button">选课</button>
+            <button type="button" class="btn btn-danger withdraw-course-button">退课</button>
+          </div>
       </div>
   </div>
 </div>
