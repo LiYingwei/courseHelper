@@ -1,6 +1,17 @@
 htmlobj=$.ajax({url:"/courseHelper/header/header.html",async:false});
 $("#common-header").html(htmlobj.responseText);
 
+Sortable.create(simpleList, { /* options */ });
+
+function getOrder() {
+    var preference = [];
+    $('#simpleList li').each(function(i)
+    {
+        preference.push($(this).attr('rel'));
+    });
+    return preference;
+}
+
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substringRegex;
@@ -17,7 +28,7 @@ var substringMatcher = function(strs) {
         matches.push(str);
       }
     });
-    console.log(matches);
+    //console.log(matches);
 
     cb(matches);
   };
@@ -196,7 +207,7 @@ var courses = [
 $('#the-basics .typeahead').typeahead({
   hint: true,
   highlight: true,
-  minLength: 1
+  minLength: 0
 },
 {
   name: 'courses',
@@ -211,6 +222,10 @@ $('#the-basics .typeahead').typeahead({
     suggestion: Handlebars.compile('<div><strong>{{name}}</strong> <br/>  {{no}} {{teachers}}</div>')
   }
 });
+
+/*$("#the-basics .typeahead").on("click", function () {
+    $("#the-basics .typeahead").typeahead("open");
+});*/
 
 if($("#maintab1").length>0)
 {
