@@ -12,8 +12,12 @@ $('.modal').modal('show');
 }); */
 var textGet;
 var personGet={};
+//$(document).ready(function(){
+//	postToIframe({'plan.id':'9279','majorPlanId':'9279'},"http://jwfw.fudan.edu.cn/eams/stdPlanCompletedState!instantAudit.action",'iframe1');
+//});
 $('#iframe1').load(function(){
 	
+
 	$('.modal p').html('请手动把urp上的已修课程情况导入本应用：<br/>1.在下面框架内单击鼠标，通过Ctrl+A全选，Ctrl+C复制；<br/>2.在粘贴文本框内通过Ctrl+V粘贴，然后按确定。<br/>由于这个应用是离线存储的，所以你也不用担心什么信息泄露。');
 	$('#confirmCommitPersonInfo').attr('disabled',false);
 });

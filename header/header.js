@@ -1,17 +1,40 @@
 htmlobj=$.ajax({url:"/courseHelper/header/header.html",async:false});
 $("#common-header").html(htmlobj.responseText);
 
-Sortable.create(simpleList, { /* options */ });
-
-function getOrder() {
+Sortable.create(simpleList, {
+    onUpdate:function(){savePerference();}
+});
+$(document).ready(function(){
+    loadPerference();
+});
+function getuiPerference() {
     var preference = [];
     $('#simpleList li').each(function(i)
     {
-        preference.push($(this).attr('rel'));
+        preference[parseInt($(this).attr('rel'))]=i;
+        //preference.push($(this).attr('rel'));
     });
     return preference;
 }
-
+function savePerference(){
+    localStorage["perference"]=getuiPerference().toString();
+}
+function loadPerference(){
+    var namelist=[];
+    if(localStorage["perference"]!=null)
+    {
+        var preference=eval("[" + localStorage["perference"] + "]");
+        $('#simpleList li').each(function(i)
+        {
+            namelist[i]=$(this).html();
+        });
+        for(var i=0;i<6;++i)
+        {
+            $('#simpleList li:eq('+preference[i]+')').html(namelist[i]);
+            $('#simpleList li:eq('+preference[i]+')').attr('rel',i);
+        }
+    }
+}
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substringRegex;

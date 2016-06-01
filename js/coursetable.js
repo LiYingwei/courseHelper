@@ -73,7 +73,11 @@ function drawcoursetable() {
             tablehtml+='>';
             if(selectedAtTime[i][j]>0)
             {
-                tablehtml+=cinfo.no + '<br />' + cinfo.name;
+                if(arrange.rooms!='')
+                {
+                    tablehtml+=cinfo.no + '<br />' + cinfo.name + '<br /><strong>' + arrange.rooms[0] + '</strong>' + arrange.rooms.substring(1);
+                }
+                
             }
             else if(selectedAtTime[i][j]==0)
             {
@@ -124,8 +128,10 @@ function getCoursesResult(list)
         var ctype=getCourseType(courseInfo[cid].no);
         sortlist.push({arrange:list[i],coursetype:ctype,test:selectableTest(cid)});
     }
+    var perference=getuiPerference();
+    perference[6]=6;
     sortlist.sort(function(a,b){
-        return a.coursetype==b.coursetype?b.test.able-a.test.able:a.coursetype-b.coursetype;
+        return a.coursetype==b.coursetype?b.test.able-a.test.able:perference[a.coursetype]-perference[b.coursetype];
     });
     console.log(sortlist);
     var res="";

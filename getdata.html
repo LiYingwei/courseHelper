@@ -37,7 +37,7 @@
             </div>
             <div class="modal-body">
               <p>请稍候……</p>
-              <iframe src="http://www.urp.fudan.edu.cn:78/epstar/app/fudan/ScoreManger/ScoreViewer/Student/Course.jsp" width="100%" height="100" id="iframe1"> 
+              <iframe src="http://www.urp.fudan.edu.cn:78/epstar/app/fudan/ScoreManger/ScoreViewer/Student/Course.jsp" width="100%" height="100" id="iframe1" name="iframe1"> 
                 您的浏览器并不支持框架，话说哪来的那么破的浏览器 
               </iframe> 
                 <textarea class="form-control" id="paste_text" placeholder="粘贴文本框" width="100%" height="100"></textarea>
@@ -49,6 +49,10 @@
         </div>
       </div>
     </div>
+    <form action="http://jwfw.fudan.edu.cn/eams/stdPlanCompletedState!instantAudit.action" method="post" target="iframe1" id="postToIframe">
+      <input type="hidden" name="plan.id" value="9279">
+      <input type="hidden" name="majorPlanId" value="9279">
+    </form>
     <script src="dist/js/vendor/jquery.min.js"></script>
     <script src="dist/js/vendor/video.js"></script>
     <script src="dist/js/flat-ui.min.js"></script>

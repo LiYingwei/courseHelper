@@ -10,6 +10,10 @@ var selectedCourse=[];
 var selectedAtTime=[];
 var selectedArrangeAtTime=[];
 var myExams = [];
+var gpabyteacher=[];
+var gpabycourse=[];
+var gpabyteachercourse=[];
+var gpainited = false;
 
 var testExamInfo = [
         {
@@ -60,6 +64,7 @@ function sortExamInfo()
 function saveExamInfo()
 {
     localStorage["exams"]=JSON.stringify(myExams);
+    //todo: show a hint
 }
 function deleteExam(examInfoIndex)
 {
@@ -228,6 +233,31 @@ function initCourseInfo()
         }
     }
 }
+function initGPAInfo()
+{
+	for(var i in GPATool)
+	{
+		var gpa=GPATool[i];
+		var delta=parseInt(GPATool[i].sum);
+		var tc=gpa.teacher + '<>' + gpa.name;
+		if(gpabyteachercourse[tc]==null)
+			gpabyteachercourse[tc]=[];
+		if(gpabyteacher[gpa.teacher]==null)
+			gpabyteacher[gpa.teacher]=[];
+		if(gpabycourse[gpa.name]==null)
+			gpabycourse[gpa.name]=[];
+		if(gpabyteachercourse[tc][gpa.score]==null)
+			gpabyteachercourse[tc][gpa.score]=0;
+		if(gpabyteacher[gpa.teacher][gpa.score]==null)
+			gpabyteacher[gpa.teacher][gpa.score]=0;
+		if(gpabycourse[gpa.name][gpa.score]==null)
+			gpabycourse[gpa.name][gpa.score]=0;
+		gpabyteachercourse[tc][gpa.score]+=delta;
+		gpabyteacher[gpa.teacher][gpa.score]+=delta;
+		gpabycourse[gpa.name][gpa.score]+=delta;
+	}
+	gpainited=true;
+}
 function getCoursesAtTime(unit,weekday)
 {
     var res=[];
@@ -252,10 +282,74 @@ function loadSelectedCourse()
     }
     selectedCourse=eval("["+localStorage["SelectedCourse"]+"]");
 }
-function drawPieChart() {
-    //A A- B+ B B- C+ C C- D D- F
-    var grade = [0.8,0.8,0.8,0.8];
-    var sum = 0;
+function drawPieChart(cno) {
+	if(!gpainited)
+	{
+		initGPAInfo();
+	}
+	var cinfo=courseInfo[cno];
+	var course=cinfo.name,teacher=cinfo.teachers.split(',')[0];
+	var tc=teacher + '<>' + course;
+	var op;
+	var chartTitle;
+	if(gpabyteachercourse[tc]!=null)
+	{
+		op=gpabyteachercourse[tc];
+		chartTitle='本课程历年给分情况';
+	}
+	else if(gpabyteacher[teacher]!=null)
+	{
+		op=gpabyteacher[teacher];
+		chartTitle= teacher + '老师历年给分情况';
+	}
+	else if(gpabycourse[course]!=null)
+	{
+		op=gpabycourse[course];
+		chartTitle = '该课程其他老师历年给分情况';
+	}
+	else
+	{
+		op=null;
+		chartTitle = '历年给分情况';
+	}
+	$('#pieChartTitle').html(chartTitle);
+	var gradelist=['A','A-','B+','B','B-','C+','C','C-','D','D-','F'];
+	var colorlist = ["#00BFFF","#87CEEB","#228B22","#32CD32","#98FB98","#FF8C00","#FFA500","#F4A460","#FFD700","#FFFF00","#FF0000"];
+	var pieData = [];
+	var grade=[];
+	var sum=0.0;
+	if(op==null)
+	{
+		pieData.push({
+			value:1,
+			label:'No data',
+			color:"#AAAAAA",
+			labelColor:'black',
+			labelFontSize:'16'
+		});
+	}
+	else
+	{
+		for(var i in gradelist)
+		{
+			if(op[gradelist[i]]!=null)sum+=op[gradelist[i]];
+		}
+		for(var i in gradelist)
+		{
+			if(op[gradelist[i]]!=null)grade[i]=op[gradelist[i]]/sum;else grade[i]=0;
+			pieData.push({
+				value:grade[i],
+				label:gradelist[i],
+				color:colorlist[i],
+				labelColor:'white',
+				labelFontSize:'16'
+			});
+		}
+
+	}
+    //
+    //var grade = [0.8,0.8,0.8,0.8];
+    /*var sum = 0;
     for(var i = 0;i < grade.length; i++)
         grade[i] += Math.random(), sum += grade[i];
     for(var i = 0;i < grade.length; i++)
@@ -289,7 +383,7 @@ function drawPieChart() {
         labelColor : 'white',
         labelFontSize : '16'
     }
-    ];
+    ];*/
     /*var pieData = [{
                 value : 30,
                 color : "#F38630",
@@ -337,7 +431,7 @@ function showCourseDetail(cno)
 
 	}
 	$('#modal_courseDetail').modal('show');
-	setTimeout('drawPieChart()',50);
+	setTimeout('drawPieChart("'+cno+'")',50);
 	$("#dclassno").text(cno);
 	$("#dcoursename").text(courseInfo[cno].name);
 	$("#dcredits").text(courseInfo[cno].credits);
