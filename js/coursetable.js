@@ -1,5 +1,7 @@
 //my:585302,590248,583838,587271,586870,586521,588193,590458,585851,588041
+
 $(document).ready(function(){
+    initCoursetype();
     initCourseInfo();
     loadSelectedCourse();
     loadMyExams();
@@ -105,21 +107,45 @@ function drawcoursetable() {
         }
     });
 }
+function getCourseType(cno)
+{
+    var courseID=cno.split('.')[0];
+    if(coursetype[courseID]==null)return 6;
+    return coursetype[courseID].kind;
+}
 function getCoursesResult(list)
 {
-    var res="";
+    var sortlist=[];
     for(var i in list)
     {
         var arrange=list[i];
         var cid=arrange.cid;
         var cinfo=courseInfo[cid];
+        var ctype=getCourseType(courseInfo[cid].no);
+        sortlist.push({arrange:list[i],coursetype:ctype,test:selectableTest(cid)});
+    }
+    sortlist.sort(function(a,b){
+        return a.coursetype==b.coursetype?b.test.able-a.test.able:a.coursetype-b.coursetype;
+    });
+    console.log(sortlist);
+    var res="";
+    for(var i in sortlist)
+    {
+        var arrange=sortlist[i].arrange;
+        var cid=arrange.cid;
+        var cinfo=courseInfo[cid];
+        if(i==0||sortlist[i].coursetype!=sortlist[i-1].coursetype)
+        {
+            console.log(sortlist[i].coursetype);
+            res+="<tr><td colspan=7><strong>" + typenamelist[sortlist[i].coursetype] + "</strong></td></tr>";
+        }
         res+="<tr><td>" + cinfo.no + "</td><td>" + 
             "<a href=\"javascript:showCourseDetail('" + cinfo.no + "');\">" + cinfo.name + "</a>" + "</td><td>"
             + cinfo.credits + "</td><td>"
-            + cinfo.teachers + "</td><td>" + arrange.startUnit + "-" + arrange.endUnit + "</td><td>" + "0" + 
+            + cinfo.teachers + "</td><td>" + arrange.startUnit + "-" + arrange.endUnit + " " + arrange.rooms + "</td><td>" + "0" + 
             '</td><td>';
-            var test=selectableTest(cid);
-            if(test.able==1)
+            var test=sortlist[i].test;
+            if(test.able==2)
             {
                 res+='<a title="选课" href="#" onclick="selectCourse(' + cinfo.id + ')">选课</a>'
             }
@@ -129,7 +155,7 @@ function getCoursesResult(list)
                 res+='<a href="javascript:void(0);" style="color:red" data-toggle="tooltip" data-placement="left" title="'+
                 test.error+'">'+test.short+'</a>'
             }
-            else if(test.able==-1)
+            else if(test.able==1)
             {
                 res+='<span class="glyphicon glyphicon-exclamation-sign" style="color:orange" aria-hidden="true"></span>';
                res+='<a href="javascript:void(0);" style="color:orange" data-toggle="tooltip" data-placement="left" title="'+

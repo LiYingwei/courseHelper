@@ -1,5 +1,5 @@
 var typelist=[[],[],[],[],[],[]];
-
+var typenamelist=["文理基础","通识选修","专业必修","政治选修","专业选修","六大模块","任意选修"];
 /*
 var classReference = {
   "reference": [

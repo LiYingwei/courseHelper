@@ -33,8 +33,8 @@ var data = {
 
     ]
 }
-initCoursetype();
 $(document).ready(function(){
+    initCoursetype();
     getPersonalInfo();
     loadSelectedCourse();
     initCourseInfo();

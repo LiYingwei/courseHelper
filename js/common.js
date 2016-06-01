@@ -11,6 +11,37 @@ var selectedAtTime=[];
 var selectedArrangeAtTime=[];
 var myExams = [];
 
+var testExamInfo = [
+        {
+            title  : '人机交互',
+            start  : '2016-05-10',
+            time   : '08:00',
+            position:'Z2333',
+            method : '1'
+        },
+        {
+            title  : '十遍含数',
+            start  : '2016-05-23',
+            time   : '02:20',
+            position:'H2222',
+            method : '2'
+        },
+        {
+            title  : '局部解剖学',
+            start  : '2016-05-31',
+            time   : '12:00',
+            position:'F5201',
+            method : '3'
+        },
+        {
+            title  : '鬼畜心理学',
+            start  : '2016-05-31',
+            time   : '17:00',
+            position:'Z计算机机房1',
+            method : '1'
+        }
+    ];
+
 function loadMyExams()
 {
     if(localStorage["exams"]==undefined)
@@ -24,7 +55,7 @@ function loadMyExams()
 }
 function sortExamInfo()
 {
-    myExams.sort(function(a,b){return a.start==b.start?a.time>b.time:a.start>b.start;});
+    myExams.sort(function(a,b){return a.start==b.start?a.time-b.time:a.start-b.start;});
 }
 function saveExamInfo()
 {
@@ -431,7 +462,7 @@ function selectableTest(cid)
         	{
         		if(oldCampus!=newCampus)
         		{
-        			return {able:-1,error:'这门课之前已选一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'跨校区'};
+        			return {able:1,error:'这门课之前已选一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'跨校区'};
         		}
         	}
         }
@@ -443,7 +474,7 @@ function selectableTest(cid)
         	{
         		if(oldCampus!=newCampus)
         		{
-        			return {able:-1,error:'这门课之后已选一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'跨校区'};
+        			return {able:1,error:'这门课之后已选一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'跨校区'};
         		}
         	}
         }
@@ -451,7 +482,7 @@ function selectableTest(cid)
     var examConflict=examTimeTest(cid);
     if(examConflict!=-1)
     {
-    	return {able:-1,error:'这门课考试时间与已安排考试时间过于相近：' + myExams[examConflict].title,short:'考试冲突'};
+    	return {able:1,error:'这门课考试时间与已安排考试时间过于相近：' + myExams[examConflict].title,short:'考试冲突'};
     }
-    return {able:1,error:'',short:''};
+    return {able:2,error:'',short:''};
 }

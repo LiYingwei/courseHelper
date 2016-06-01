@@ -4,37 +4,6 @@ $(".form_datetime").datetimepicker({
     todayBtn: true,
     pickerPosition: "bottom-left"
 });
-var testExamInfo = [
-        {
-            title  : '人机交互',
-            start  : '2016-05-10',
-            time   : '08:00',
-            position:'Z2333',
-            method : '1'
-        },
-        {
-            title  : '十遍含数',
-            start  : '2016-05-23',
-            time   : '02:20',
-            position:'H2222',
-            method : '2'
-        },
-        {
-            title  : '局部解剖学',
-            start  : '2016-05-31',
-            time   : '12:00',
-            position:'F5201',
-            method : '3'
-        },
-        {
-            title  : '鬼畜心理学',
-            start  : '2016-05-31',
-            time   : '17:00',
-            position:'Z计算机机房1',
-            method : '1'
-        }
-    ];
-
 
 loadMyExams();
 loadCountDown(myExams);
