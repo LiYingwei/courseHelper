@@ -1,12 +1,42 @@
 var coursetype={};
+var courseInfo={};
+
 var requiredcreditslist=[];
 var completecreditslist=[];
 var plannedcreditslist=[];
 
-var courseInfo={};
 var selectableByTime=[];
 var selectedCourse=[];
+var selectedAtTime=[];
+var selectedArrangeAtTime=[];
+var myExams = [];
 
+function loadMyExams()
+{
+    if(localStorage["exams"]==undefined)
+    {
+        myExams=testExamInfo;
+    }
+    else
+    {
+        myExams=eval("["+localStorage["exams"]+"]")[0];
+    }
+}
+function sortExamInfo()
+{
+    myExams.sort(function(a,b){return a.start==b.start?a.time>b.time:a.start>b.start;});
+}
+function saveExamInfo()
+{
+    localStorage["exams"]=JSON.stringify(myExams);
+}
+function deleteExam(examInfoIndex)
+{
+    myExams.splice(examInfoIndex,1);
+    sortExamInfo();
+    saveExamInfo();
+    refreshPage();
+}
 function initCoursetype()
 {
 	for(var i=0;i<6;++i)
@@ -65,8 +95,8 @@ function calcPersonComplete(){
 	if(typelist[1][3].complete>typelist[1][3].credits+0.01)
 	{
 		extraAll+=typelist[1][3].complete-typelist[1][3].credit;
+		typelist[1][3].complete=typelist[1][3].credits;
 	}
-	typelist[1][3].complete=typelist[1][3].credits;
 	//alert("额外学分："+extraAll + "!");
 	for(var i=0;i<6;++i)
 	{
@@ -121,8 +151,8 @@ function calcPersonPlanned(){
 	if(typelist[1][3].planned>typelist[1][3].credits+0.01)
 	{
 		extraAll+=typelist[1][3].planned-typelist[1][3].credit;
+		typelist[1][3].planned=typelist[1][3].credits;
 	}
-	typelist[1][3].planned=typelist[1][3].credits;
 	//alert("额外学分："+extraAll + "!");
 	for(var i=0;i<6;++i)
 	{
@@ -255,6 +285,26 @@ function drawPieChart() {
 }
 function showCourseDetail(cno)
 {
+	if(courseInfo[cno]==undefined)
+	{
+		alert('不存在的选课号！');
+		return;
+	}
+	if(selectedCourse.indexOf(courseInfo[cno].id)>=0)
+	{
+		$('.select-course-button').hide();
+		$('.withdraw-course-button').unbind('click').click(function(){
+			withdrawCourse(courseInfo[cno].id);
+		}).show();
+	}
+	else
+	{
+		$('.withdraw-course-button').hide();
+		$('.select-course-button').unbind('click').click(function(){
+			selectCourse(courseInfo[cno].id);
+		}).show();
+
+	}
 	$('#modal_courseDetail').modal('show');
 	setTimeout('drawPieChart()',50);
 	$("#dclassno").text(cno);
@@ -272,4 +322,136 @@ function showCourseDetail(cno)
 	}
 	$("#dtime").text(courseInfo[cno].arrangeText);
 	$("#dplace").text(courseInfo[cno].arrangeInfo[0].rooms);
+}
+function clearSelectedCourse()
+{
+    selectedCourse=[];
+    saveSelectedCourse();
+    drawcoursetable();
+}
+function selectCourse(cid)
+{
+	if(cid==-1)
+	{
+		alert('错误：不存在的选课号！');
+		return;
+	}
+	var exam=examList[courseInfo[cid].no];
+	if(exam!=null)
+	{
+		myExams.push({title:courseInfo[cid].name,
+			start:exam.date_time.split(' ')[0],
+			time:exam.date_time.split(' ')[1],
+			position:exam.position,
+			method:['杂技表演','论文','闭卷','开卷'].indexOf(exam.method)
+		});
+	    sortExamInfo();
+		saveExamInfo();
+	}
+    selectedCourse.push(cid);
+    saveSelectedCourse();
+	$('#modal_courseDetail').modal('hide');
+    $("#tipPanel").fadeOut("fast");
+    drawcoursetable();
+}
+function withdrawCourse(cid)
+{
+	var remove=selectedCourse.indexOf(cid);
+	console.log(cid);
+	if(remove==-1)
+	{
+		alert('错误：没有选过这门课！');
+		return;
+	}
+	for(var i=myExams.length-1;i>=0;--i)
+	{
+		if(myExams[i].title==courseInfo[cid].name)
+		{
+			myExams.splice(i,1);
+		}
+	}
+    sortExamInfo();
+	saveExamInfo();
+    selectedCourse.splice(remove,1);
+    saveSelectedCourse();
+	$('#modal_courseDetail').modal('hide');
+    $("#tipPanel").fadeOut("fast");
+    drawcoursetable();
+}
+function examTimeTest(cid)
+{
+	var exam=examList[courseInfo[cid].no];
+	if(exam==null)return -1;
+	var newdate=new Date(examList[courseInfo[cid].no].date_time);
+	for(var i in myExams)
+	{
+		var mydate=new Date(myExams[i].start + ' ' + myExams[i].time);
+		var delta=Math.abs(newdate.getTime() - mydate.getTime())/ 86400000;
+
+		if(delta<0.1249)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+function selectableTest(cid)
+{
+	var cinfo=courseInfo[cid];
+	for(var i in selectedCourse)
+	{
+		if(courseInfo[selectedCourse[i]].name==cinfo.name)
+		{
+			return {able:0,error:'您课表上已经有相关课程了！',short:'重复'};
+		}
+	}
+    for(var j in cinfo.arrangeInfo)
+    {
+        var arrange=cinfo.arrangeInfo[j];
+        if(arrange.weekDay==7)arrange.weekDay=0;
+        for(var k=arrange.startUnit;k<=arrange.endUnit;++k)
+        {
+        	if(selectedAtTime[k][arrange.weekDay]!=0)
+        	{
+        		return {able:0,error:'课表上有时间冲突的课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'冲突'};
+        	}
+        }
+    }
+    for(var j in cinfo.arrangeInfo)
+    {
+        var arrange=cinfo.arrangeInfo[j];
+        if(arrange.weekDay==7)arrange.weekDay=0;
+        var newCampus=arrange.rooms[0];
+        if("ZJHF".indexOf(newCampus)==-1)continue;
+        var k=arrange.startUnit-1;
+        if(k>=1&&selectedAtTime[k][arrange.weekDay]!=0)
+        {
+        	var oldCampus=selectedArrangeAtTime[k][arrange.weekDay].rooms[0];
+        	if("ZJHF".indexOf(oldCampus)!=-1)
+        	{
+        		if(oldCampus!=newCampus)
+        		{
+        			return {able:-1,error:'这门课之前已选一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'跨校区'};
+        		}
+        	}
+        }
+        k=arrange.endUnit+1;
+        if(k<=14&&selectedAtTime[k][arrange.weekDay]!=0)
+        {
+        	var oldCampus=selectedArrangeAtTime[k][arrange.weekDay].rooms[0];
+        	if("ZJHF".indexOf(oldCampus)!=-1)
+        	{
+        		if(oldCampus!=newCampus)
+        		{
+        			return {able:-1,error:'这门课之后已选一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'跨校区'};
+        		}
+        	}
+        }
+    }
+    var examConflict=examTimeTest(cid);
+    if(examConflict!=-1)
+    {
+    	return {able:-1,error:'这门课考试时间与已安排考试时间过于相近：' + myExams[examConflict].title,short:'考试冲突'};
+    }
+    return {able:1,error:'',short:''};
 }

@@ -4,7 +4,6 @@ $(".form_datetime").datetimepicker({
     todayBtn: true,
     pickerPosition: "bottom-left"
 });
-var examInfo = [];
 var testExamInfo = [
         {
             title  : '人机交互',
@@ -37,8 +36,8 @@ var testExamInfo = [
     ];
 
 
-loadExamInfo();
-loadCountDown(examInfo);
+loadMyExams();
+loadCountDown(myExams);
 $('#calendar').fullCalendar({
     theme: false,
     buttonText: {
@@ -56,10 +55,10 @@ $('#calendar').fullCalendar({
         //right: 'title',
         //right: 'month'
     },
-    events: examInfo,
+    events: myExams,
 });
 
-function loadCountDown(examInfo) {
+function loadCountDown(myExams) {
     var html='',htmlpast='';
     html+='<table class="table">';
     html+='<thead>\
@@ -75,19 +74,19 @@ function loadCountDown(examInfo) {
         </thead>';
     html+='<tbody>';
     htmlpast=html.replace("<th>倒计时</th>","");
-    for(var i=0;i<examInfo.length;i++)
+    for(var i=0;i<myExams.length;i++)
     {
         var today = new Date();
-        var time = new Date(examInfo[i].start);
+        var time = new Date(myExams[i].start);
         var str="";
         var count=Math.floor((time.getTime() - today.getTime())/ 86400000 + 1);
         str += '<tr>';
         if(count>=0)str += '<td>' + count;
-        str += '<td>' + examInfo[i].start + '</td>';
-        str += '<td>' + examInfo[i].time + '</td>';
-        str += '<td>' + examInfo[i].title + '</td>';
-        str += '<td>' + examInfo[i].position + '</td>';
-        str += '<td>' + $("select[name=method] option[value='" + examInfo[i].method + "']").text() + '</td>';
+        str += '<td>' + myExams[i].start + '</td>';
+        str += '<td>' + myExams[i].time + '</td>';
+        str += '<td>' + myExams[i].title + '</td>';
+        str += '<td>' + myExams[i].position + '</td>';
+        str += '<td>' + $("select[name=method] option[value='" + myExams[i].method + "']").text() + '</td>';
         str += '<td>' + '<button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#myModal" onclick="modifyExam(' + i + ')">\
   修改\
 </button>' + '&nbsp;<button type="button" class="btn btn-danger btn-xs" onclick="deleteExam(' + i + ')">删除</button>'
@@ -102,61 +101,35 @@ function loadCountDown(examInfo) {
     $('#countDown').html(html);
     $('#pastExam').html(htmlpast);
 }
-function sortExamInfo()
-{
-    examInfo.sort(function(a,b){return a.start==b.start?a.time>b.time:a.start>b.start;});
-}
-function saveExamInfo()
-{
-    localStorage["exams"]=JSON.stringify(examInfo);
-}
 function refreshPage()
 {
     location.reload();
 }
-function loadExamInfo()
-{
-    if(localStorage["exams"]==undefined)
-    {
-        examInfo=testExamInfo;
-    }
-    else
-    {
-        examInfo=eval("["+localStorage["exams"]+"]")[0];
-    }
-}
 var modifiedItem;
-function deleteExam(examInfoIndex)
-{
-    examInfo.splice(examInfoIndex,1);
-    sortExamInfo();
-    saveExamInfo();
-    refreshPage();
-}
 function modifyExam(examInfoIndex)
 {
     modifiedItem=examInfoIndex;
     if(examInfoIndex>=0)
     {
-        $("#modifyExamInfo #title").val(examInfo[examInfoIndex].title);
-        $("#modifyExamInfo #date_time").val(examInfo[examInfoIndex].start + ' ' + examInfo[examInfoIndex].time);
-        $("#modifyExamInfo #position").val(examInfo[examInfoIndex].position);
-        $("#modifyExamInfo #method").val(examInfo[examInfoIndex].method);
-        $('.selectpicker').selectpicker('val', examInfo[examInfoIndex].method);
+        $("#modifyExamInfo #title").val(myExams[examInfoIndex].title);
+        $("#modifyExamInfo #date_time").val(myExams[examInfoIndex].start + ' ' + myExams[examInfoIndex].time);
+        $("#modifyExamInfo #position").val(myExams[examInfoIndex].position);
+        $("#modifyExamInfo #method").val(myExams[examInfoIndex].method);
+        $('.selectpicker').selectpicker('val', myExams[examInfoIndex].method);
     }
 }
 function commitModify()
 {
     if(modifiedItem==-1)
     {
-        examInfo.push({});
-        modifiedItem=examInfo.length-1;
+        myExams.push({});
+        modifiedItem=myExams.length-1;
     }
-    examInfo[modifiedItem].title=$("#modifyExamInfo #title").val();
-    examInfo[modifiedItem].start=$("#modifyExamInfo #date_time").val().split(' ')[0];
-    examInfo[modifiedItem].time=$("#modifyExamInfo #date_time").val().split(' ')[1];
-    examInfo[modifiedItem].position=$("#modifyExamInfo #position").val();
-    examInfo[modifiedItem].method=$("#modifyExamInfo #method").val();
+    myExams[modifiedItem].title=$("#modifyExamInfo #title").val();
+    myExams[modifiedItem].start=$("#modifyExamInfo #date_time").val().split(' ')[0];
+    myExams[modifiedItem].time=$("#modifyExamInfo #date_time").val().split(' ')[1];
+    myExams[modifiedItem].position=$("#modifyExamInfo #position").val();
+    myExams[modifiedItem].method=$("#modifyExamInfo #method").val();
 
     sortExamInfo();
     saveExamInfo();
@@ -165,12 +138,12 @@ function commitModify()
 function removeAllPast()
 {
 
-    for(var i=examInfo.length-1;i>=0;i--)
+    for(var i=myExams.length-1;i>=0;i--)
     {
         var today = new Date();
-        var time = new Date(examInfo[i].start);
+        var time = new Date(myExams[i].start);
         var count=Math.floor((time.getTime() - today.getTime())/ 86400000 + 1);
-        if(count<=0)examInfo.splice(i,1);
+        if(count<=0)myExams.splice(i,1);
     }
     sortExamInfo();
     saveExamInfo();
