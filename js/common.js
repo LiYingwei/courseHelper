@@ -65,8 +65,8 @@ function calcPersonComplete(){
 	if(typelist[1][3].complete>typelist[1][3].credits+0.01)
 	{
 		extraAll+=typelist[1][3].complete-typelist[1][3].credit;
+		typelist[1][3].complete=typelist[1][3].credits;
 	}
-	typelist[1][3].complete=typelist[1][3].credits;
 	//alert("额外学分："+extraAll + "!");
 	for(var i=0;i<6;++i)
 	{
@@ -121,8 +121,8 @@ function calcPersonPlanned(){
 	if(typelist[1][3].planned>typelist[1][3].credits+0.01)
 	{
 		extraAll+=typelist[1][3].planned-typelist[1][3].credit;
+		typelist[1][3].planned=typelist[1][3].credits;
 	}
-	typelist[1][3].planned=typelist[1][3].credits;
 	//alert("额外学分："+extraAll + "!");
 	for(var i=0;i<6;++i)
 	{
