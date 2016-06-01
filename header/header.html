@@ -12,7 +12,7 @@
 	  <li id="tab3"><a href="examcalendar.html" onclick="">考试时间</a></li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
-	  <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+	  <li><a><span data-toggle="modal" data-target="#navSetting" class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
 	  <li><a href="login.html" onclick="">登录</a></li>
 	</ul>
 	<form class="navbar-form navbar-right" action="#" role="search">
@@ -26,6 +26,7 @@
 	  </div>
 	</form>
   </div><!-- /.navbar-collapse -->
+
 <div class="modal_courseDetail modal fade bs-example-modal-lg" id="modal_courseDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -100,4 +101,33 @@
       </div>
   </div>
 </div>
+
+<div class="modal fade" id="navSetting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">选课偏好设置</h4>
+            </div>
+            <div class="modal-body">
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <ul id="simpleList" class="list-group">
+                      <li class="list-group-item" rel="六模">六模</li>
+                      <li class="list-group-item" rel="政治">政治</li>
+                      <li class="list-group-item" rel="英语">英语</li>
+                      <li class="list-group-item" rel="必修">必修</li>
+                      <li class="list-group-item" rel="选修">选修</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
