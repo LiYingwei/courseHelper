@@ -101,16 +101,18 @@ function drawcoursetable() {
             showCourseDetail($(this).attr("cid"));
         }
         else{
-            $("#tipPanel tbody").html(getCoursesResult(getCoursesAtTime(
+            $("#tipForm tbody").html(getCoursesResult(getCoursesAtTime(
                 $(this).attr("unit"),$(this).attr("weekday")
             )));
             $('[data-toggle="tooltip"]').tooltip();
-            $("#tipPanel").hide().fadeIn("fast")
+            /*$("#tipPanel").hide().fadeIn("fast")
             .css("top",$(this).offset().top+$(this).height()/2)
-            .css("left",$(this).offset().left+$(this).width()/2);
+            .css("left",$(this).offset().left+$(this).width()/2);*/
+            $("#tipModal").modal('show');
         }
     });
 }
+
 function getCourseType(cno)
 {
     var courseID=cno.split('.')[0];
