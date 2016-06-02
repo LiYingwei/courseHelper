@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>多维选课辅助系统</title>
+    <meta name="description" content="高仿真模型"/>
+
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Loading Bootstrap -->
+    <link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="dist/css/flat-ui.css" rel="stylesheet">
+    <link href="docs/assets/css/demo.css" rel="stylesheet">
+
+    <link href="bower_components/fullcalendar/dist/fullcalendar.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="dist/js/vendor/html5shiv.js"></script>
+      <script src="dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/typeahead.css">
+  </head>
+  <body>
+	<nav id="common-header" class="navbar navbar-default" role="navigation" >
+    <!-- common head template -->
+	</nav>
+
+
+    <div id="maintab2" class="container">
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="row">
+            <table class="table table-bordered">
+            <tbody id = "infotable">
+              <tr>
+                <th>姓名</th>
+                <td id="pname"></td>
+                <th>年级</th>
+                <td id="pyear"></td>
+              </tr>
+              <tr>
+                <th>院系</th>
+                <td id="pdepartment"></td>
+                <th>绩点</th>
+                <td id="pavgscore"></td>
+              </tr>
+              <tr>
+                <th>专业</th>
+                <td id="pmajor"></td>
+                <th>性别</th>
+                <td id="psex"></td>
+              </tr>
+              <tr>
+                <th>应修</th>
+                <td id="pneedcredits"></td>
+                <th>已修</th>
+                <td id="pallcredits"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <canvas id="radarChart" class="raw" width="400px" height="400px"></canvas>
+            <div id="chartwindow3" onclick="showChartForm(2)" class="transparentWindow"></div>
+            <div id="chartwindow4" onclick="showChartForm(3)" class="transparentWindow"></div>
+            <div id="chartwindow5" onclick="showChartForm(4)" class="transparentWindow"></div>
+            <div id="chartwindow6" onclick="showChartForm(5)" class="transparentWindow"></div>
+            <div id="chartwindow1" onclick="showChartForm(0)" class="transparentWindow"></div>
+            <div id="chartwindow2" onclick="showChartForm(1)" class="transparentWindow"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div id="scheduleprogress" class="col-xs-6"></div>
+          <div id="classReference2" class="col-xs-6"></div>
+        </div>
+      </div>
+      <div class="row">
+        <!--table></table-->
+      </div>
+
+      <div class="modal fade" id="selectCousre" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      <h4 class="modal-title" id="myModalLabel">选课成功</h4>
+                  </div>
+                  <div class="modal-body">已经排到你的课表上</div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+
+
+    <script src="dist/js/vendor/jquery.min.js"></script>
+    <script src="dist/js/vendor/video.js"></script>
+    <script src="dist/js/flat-ui.min.js"></script>
+    <script src="Sortable/jquery.fn.sortable.js"></script>
+    <script src="Sortable/Sortable.js"></script>
+    <script src="bower_components/typeahead.js/dist/typeahead.jquery.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
+    <script src="dist/js/vendor/Chart.min.js"></script>
+    <script src="dist/js/vendor/Chart.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="bower_components/remarkable-bootstrap-notify/bootstrap-notify.js"></script>
+    <script src="docs/assets/js/application.js"></script>
+    <script src="js/data/courseinfo.js"></script>
+    <script src="header/header.js"></script>
+    <script src="js/data/examData.js"></script>
+    <script src="js/data/GPATool.js"></script>
+    <script src="js/data/coursetype.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/schedule.js"></script>
+  </body>
+</html>

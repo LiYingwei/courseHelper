@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>多维选课辅助系统</title>
+    <meta name="description" content="高仿真模型"/>
+
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Loading Bootstrap -->
+    <link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="dist/css/flat-ui.css" rel="stylesheet">
+    <link href="docs/assets/css/demo.css" rel="stylesheet">
+
+    <link href="bower_components/fullcalendar/dist/fullcalendar.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="dist/js/vendor/html5shiv.js"></script>
+      <script src="dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/typeahead.css">
+    <link rel="stylesheet" type="text/css" href="css/coursetable.css">
+  </head>
+  <body style="background-color:rgba(144, 146, 147, 0.42)">
+	<nav id="common-header" class="navbar navbar-default" role="navigation">
+    <!-- common head template -->
+	</nav>
+    <div id="maintab1" class="container">
+      <div class="row">
+        <div id="coursetable" class="col-xs-12">
+          <!-- course table placeholder -->
+        </div>
+        <a title="清空课表" href="javascript:clearSelectedCourse()">清空课表</a>
+      </div>
+    </div>
+    <!--div id="tipPanel" class="ajax_container" style="display: none; position: absolute; border: 14px solid rgba(0, 0, 0, 0.3); border-radius: 10px; width:760px;">
+      <div id="innerPanel" class="ajax_container" style="max-height: 300px; overflow-y: auto;">
+        <form id="tipForm" name="tipForm" action="" method="post" target="main ">
+
+          <table class="table table-condensed" style="margin:1%;text-align:center;background:white;font-size:10px;width:700px;    ">
+              <input type="hidden" name="lesson.id" value="">
+              <thead class="gridhead">
+                <tr>
+                  <th style="width:25%;">课程序号</th>
+                  <th style="width:25%;">课程名称</th>
+                  <th style="width:30px;">学分</th>
+                  <th style="width:20%;">教师姓名</th>
+                  <th style="width:30%;">时间安排</th>
+                  <th style="width:60px;">人数</th>
+                  <th style="width:60px;">
+                    <div style="float:left;text-align:right;width:44px;line-height:20px;">操作</div>
+                  </th>
+                </tr>
+              </thead>
+            <tbody></tbody>
+          </table>
+
+        </form>
+      </div>
+    </div-->
+    <div class="modal fade bs-example-modal-lg" id="tipModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h6 class="modal-title" >推荐课程已经按顺序排好</h4>
+          </div>
+          <div class="modal-body">
+            <form id="tipForm" name="tipForm" action="" method="post" target="main ">
+              <table class="table table-condensed" style="margin:1%;text-align:center;background:white;font-size:10px;width:700px;    ">
+                <input type="hidden" name="lesson.id" value="">
+                <thead class="gridhead">
+                  <tr>
+                    <th style="width:25%;">课程序号</th>
+                    <th style="width:25%;">课程名称</th>
+                    <th style="width:10%;">学分</th>
+                    <th style="width:20%;">教师姓名</th>
+                    <th style="width:30%;">时间安排</th>
+                    <th style="width:60px;">人数</th>
+                    <th style="width:60px;">
+                      <div style="float:left;text-align:right;width:44px;line-height:20px;">操作</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+        </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script src="dist/js/vendor/jquery.min.js"></script>
+    <script src="dist/js/vendor/video.js"></script>
+    <script src="dist/js/flat-ui.min.js"></script>
+    <script src="Sortable/jquery.fn.sortable.js"></script>
+    <script src="Sortable/Sortable.js"></script>
+    <script src="bower_components/typeahead.js/dist/typeahead.jquery.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
+    <script src="dist/js/vendor/Chart.min.js"></script>
+    <script src="dist/js/vendor/Chart.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="bower_components/remarkable-bootstrap-notify/bootstrap-notify.js"></script>
+    <script src="docs/assets/js/application.js"></script>
+    <script src="js/data/courseinfo.js"></script>
+    <script src="header/header.js"></script>
+    <script src="js/data/examData.js"></script>
+    <script src="js/data/GPATool.js"></script>
+    <script src="js/data/coursetype.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/coursetable.js"></script>
+  </body>
+</html>
