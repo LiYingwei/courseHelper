@@ -404,7 +404,10 @@ function drawPieChart(cno) {
         animationSteps: 100,
         animationEasing: 'easeInOutQuart'
     };
+    $('#pieChart').replaceWith('<canvas id="pieChart" class="raw" width="300px" height="300px"></canvas>');
     var ctx = $("#pieChart").get(0).getContext("2d");
+    var canvas = $("#pieChart").get(0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     var pieChart = new Chart(ctx).Pie(pieData, pieOptions);
 }
 function showCourseDetail(cno)
@@ -475,8 +478,9 @@ function selectCourse(cid)
     selectedCourse.push(cid);
     saveSelectedCourse();
 	$('#modal_courseDetail').modal('hide');
-    $("#tipPanel").fadeOut("fast");
+    $("#tipModal").modal("hide");
     drawcoursetable();
+    $.notify({message: '选课成功'},{type: 'success'});
 }
 function withdrawCourse(cid)
 {
@@ -499,8 +503,9 @@ function withdrawCourse(cid)
     selectedCourse.splice(remove,1);
     saveSelectedCourse();
 	$('#modal_courseDetail').modal('hide');
-    $("#tipPanel").fadeOut("fast");
+	$("#tipModal").modal("hide");
     drawcoursetable();
+    $.notify({message: '退课成功'},{type: 'success'});
 }
 function examTimeTest(cid)
 {

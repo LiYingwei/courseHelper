@@ -226,7 +226,6 @@ var courses = [
     ]
   }
 ];
-
 $('#the-basics .typeahead').typeahead({
   hint: true,
   highlight: true,
@@ -235,7 +234,7 @@ $('#the-basics .typeahead').typeahead({
 {
   name: 'courses',
   display: 'no',
-  source: substringMatcher(courses),
+  source: substringMatcher(lessonJSONs),
   templates: {
     empty: [
       '<div class="empty-message">',
