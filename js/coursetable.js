@@ -149,35 +149,39 @@ function getCoursesResult(list)
         if(sortlist[i].coursetype.kind<6)
         {
             var type=typelist[sortlist[i].coursetype.kind][sortlist[i].coursetype.attr];
-            var taginfo='',tagicon='';
-            ctag=type.tag;
-            if(ctag==null)ctag='';
-            if(type.credits<=type.planned+0.01)
+            if(type.name!='通识选修') //通识选修没意义
             {
-                if(type.planned-type.complete>=0.01)
+                var taginfo='',tagicon='';
+                ctag=type.tag;
+                if(ctag==null)ctag='';
+                if(type.credits<=type.planned+0.01)
                 {
-                    taginfo='您已在本学期安排至少'+(type.planned-type.complete)+'学分，可以修读完本类别';
+                    if(type.planned-type.complete>=0.01)
+                    {
+                        taginfo='您已在本学期安排至少'+(type.planned-type.complete)+'学分，可以修读完本类别';
+                    }
+                    else
+                    {
+                        taginfo='您已在之前学期修读完本类别';
+                    }
+                    tagicon='<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>';
                 }
                 else
                 {
-                    taginfo='您已在之前学期修读完本类别';
+                    if(type.planned-type.complete>=0.01)
+                    {
+                        taginfo='您已在本学期安排'+(type.planned-type.complete)+'学分，本类别还需额外'+(type.credits-type.planned)+'/'+ type.credits+'学分';
+                    }
+                    else
+                    {
+                        taginfo='本类别还需要'+(type.credits-type.planned)+'/'+ type.credits+'学分';
+                    }
+                    tagicon='<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
                 }
-                tagicon='<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>';
+                ctag='<a href="javascript:void(0);" style="color:black" data-toggle="tooltip" data-placement="left" title="'+taginfo+'">'
+                    +tagicon+ctag+"</a>";
+                
             }
-            else
-            {
-                if(type.planned-type.complete>=0.01)
-                {
-                    taginfo='您已在本学期安排'+(type.planned-type.complete)+'学分，本类别还需额外'+(type.credits-type.planned)+'/'+ type.credits+'学分';
-                }
-                else
-                {
-                    taginfo='本类别还需要'+(type.credits-type.planned)+'/'+ type.credits+'学分';
-                }
-                tagicon='<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
-            }
-            ctag='<a href="javascript:void(0);" style="color:black" data-toggle="tooltip" data-placement="left" title="'+taginfo+'">'
-                +tagicon+ctag+"</a>";
             //console.log(sortlist[i].coursetype.kind + "," + sortlist[i].coursetype.attr + ":" + typelist[sortlist[i].coursetype.kind][sortlist[i].coursetype.attr].tag);
         }
         if(i==0||sortlist[i].coursetype.kind!=sortlist[i-1].coursetype.kind)
