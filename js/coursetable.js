@@ -2,6 +2,7 @@
 
 $(document).ready(function(){
     initCoursetype();
+    initFilter();
     initCourseInfo();
     getPersonalInfo();
     loadSelectedCourse();
@@ -26,36 +27,7 @@ function drawcoursetable() {
                 <th style = "border-top-right-radius: 20px">星期六</th>\
               </tr>\
             </thead>';
-    var visibleCell=[];
-    for(var i = 1; i <= 14; ++i)
-    {
-        selectedAtTime[i]=[];
-        selectedArrangeAtTime[i]=[];
-        visibleCell[i]=[];
-        for(var j = 0; j < 7; ++j)
-        {
-            selectedAtTime[i][j]=0;
-            selectedArrangeAtTime[i][j]=undefined;
-            visibleCell[i][j]=true;
-        }
-    }
-    for(var i in selectedCourse)
-    {
-        var cinfo=courseInfo[selectedCourse[i]];
-        for(var j in cinfo.arrangeInfo)
-        {
-            var arrange=cinfo.arrangeInfo[j];
-            if(arrange.weekDay==7)arrange.weekDay=0;
-            selectedAtTime[arrange.startUnit][arrange.weekDay]=selectedCourse[i];
-            selectedArrangeAtTime[arrange.startUnit][arrange.weekDay]=arrange;
-            for(var k=arrange.startUnit+1;k<=arrange.endUnit;++k)
-            {
-                selectedAtTime[k][arrange.weekDay]=selectedCourse[i];
-                selectedArrangeAtTime[k][arrange.weekDay]=arrange;
-                visibleCell[k][arrange.weekDay]=false;
-            }
-        }
-    }
+    var visibleCell=prepareSelectAtTime();
     tablehtml+='<tbody id = "coursebody">';
     for(var i = 1; i <= 14; ++i)
     {
@@ -65,8 +37,8 @@ function drawcoursetable() {
     	for(var j = 0; j < 7; ++j)
         {
             if(!visibleCell[i][j])continue;
-            tablehtml+='<td class="xkCell" unit=' + i + ' weekday=' + j;
-            if(i == 14 && j == 6) tablehtml+='<td style = "border-bottom-right-radius: 20px">';
+            tablehtml+='<td class="xkCell ' + (selectedAtTime[i][j]!=0?'courseCell':'noCourseCell') +'" unit=' + i + ' weekday=' + j;
+            if(i == 14 && j == 6) tablehtml+='<td style = "border-bottom-right-radius: 20px" ';
             var arrange=selectedArrangeAtTime[i][j];
             var cinfo;
             if(selectedAtTime[i][j]>0)
@@ -79,13 +51,23 @@ function drawcoursetable() {
             {
                 if(arrange.rooms!='')
                 {
-                    tablehtml+=cinfo.no + '<br />' + cinfo.name + '<br /><strong>' + arrange.rooms[0] + '</strong>' + arrange.rooms.substring(1);
+                    var coursetext=cinfo.no + '<br />' + cinfo.name + '<br /><strong>' + arrange.rooms[0] + '</strong>' + arrange.rooms.substring(1);
+                    if(coursefilter[0]!=null)
+                    {
+                        var type=getCourseTypeInfo(cinfo.no);
+                        if(type.kind==coursefilter[0].kind&&type.attr==coursefilter[0].attr)
+                        {
+                            coursetext='<strong style="color:#16a085">'+coursetext+'</strong>';
+                        }
+                    }
+                    tablehtml+=coursetext;
                 }
                 
             }
             else if(selectedAtTime[i][j]==0)
             {
-                tablehtml+=selectableByTime[i][j].length;
+                if(selectableByTime[i][j].length>0)
+                    tablehtml+=selectableByTime[i][j].length;
             }
             tablehtml+='</td>';
         }
@@ -95,6 +77,7 @@ function drawcoursetable() {
     }
     tablehtml+='</tbody>';
     tablehtml += '</table>';
+    tablehtml += '<p>总学分：'+ getSelectedCredits() +'</p>';
 	$('#coursetable').html(tablehtml);
     $("tbody>tr>.xkCell").hover(function(){
         $(this).css("background-color","#EEEEEE");
@@ -116,15 +99,14 @@ function drawcoursetable() {
         }
     });
 }
-
-function getCourseType(cno)
+function getSelectedCredits()
 {
-    var courseID=cno.split('.')[0];
-    if(coursetype[courseID]==null)return {kind:6,attr:0,require:0};
-    var kind=coursetype[courseID].kind,attr=parseInt(coursetype[courseID].attr);
-    console.log(typelist[kind][attr].credits+","+typelist[kind][attr].planned);
-    var require=typelist[kind][attr].credits-typelist[kind][attr].planned;
-    return {kind:kind,attr:attr,require:require};
+    var res=0;
+    for(var i in selectedCourse)
+    {
+        res+=courseInfo[selectedCourse[i]].credits;
+    }
+    return res;
 }
 function getCoursesResult(list)
 {
@@ -134,7 +116,7 @@ function getCoursesResult(list)
         var arrange=list[i];
         var cid=arrange.cid;
         var cinfo=courseInfo[cid];
-        var ctype=getCourseType(courseInfo[cid].no);
+        var ctype=getCourseTypeInfo(courseInfo[cid].no);
         sortlist.push({arrange:list[i],coursetype:ctype,test:selectableTest(cid)});
     }
     perference=getuiPerference();
@@ -217,4 +199,38 @@ function getCoursesResult(list)
         res+='</td></tr>';
     }
     return res;
+}
+
+
+function initFilter()
+{
+    $('.tagsinput').tagsinput('removeAll');
+    $('.tagsinput-primary').show();
+    var filtertype=localStorage['filtertype'];
+    var filterattr=localStorage['filterattr'];
+    if(filtertype!=null&&filterattr!=null)
+    {
+        $('.tagsinput').tagsinput('add','课程类别筛选：' + typenamelist[filtertype] + '-' + typelist[filtertype][filterattr].name);
+        coursefilter[0]={kind:filtertype,attr:filterattr};
+    }
+    var filtertext=localStorage['filtertext'];
+    if(filtertext!=null)
+    {
+        $('.tagsinput').tagsinput('add','课程信息包含：' + filtertext);
+        coursefilter[1]=filtertext;
+    }
+
+    $('.tagsinput-primary span').unbind('click').click(function(){
+        if($(this).parent().text().includes('课程类别筛选：'))
+        {
+            localStorage.removeItem('filtertype');
+            localStorage.removeItem('filterattr');
+            location.href="coursetable.html";
+        }
+        else if($(this).parent().text().includes('课程信息包含：'))
+        {
+            localStorage.removeItem('filtertext');
+            location.href="coursetable.html";
+        }
+    });
 }

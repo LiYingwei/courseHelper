@@ -9,6 +9,10 @@
 	text-align: center;
 }
 
+.noCourseCell{
+  color:#cccccc;
+}
+
 .bootstrap-tagsinput {
     background-color: rgba(0,0,0,0);
     border: 0px solid #ebedef; 
@@ -57,3 +61,4 @@
         color: white;
         opacity: 1;
         display: block\9; }
+

@@ -29,6 +29,17 @@ $('#calendar').fullCalendar({
         //right: 'month'
     },
     events: myExams,
+    eventClick:function(event){
+        for(var i in myExams)
+        {
+            if(myExams[i].title==event.title)
+            {
+                modifyExam(i);
+                $("#myModal").modal();
+                break;
+            }
+        }
+    }
 });
 
 function loadCountDown(myExams) {
@@ -89,6 +100,13 @@ function modifyExam(examInfoIndex)
         $("#modifyExamInfo #position").val(myExams[examInfoIndex].position);
         $("#modifyExamInfo #method").val(myExams[examInfoIndex].method);
         $('.selectpicker').selectpicker('val', myExams[examInfoIndex].method);
+    }
+    else
+    {
+        $("#modifyExamInfo #title").val('');
+        $("#modifyExamInfo #date_time").val('2016-07-01 09:00');
+        $("#modifyExamInfo #position").val('');
+
     }
 }
 function commitModify()
