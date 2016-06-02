@@ -1,3 +1,7 @@
+$( document ).ready(function() {
+    $("#search-bar").hide();
+})
+
 $(".form_datetime").datetimepicker({
     format: "yyyy-mm-dd hh:ii",
     autoclose: true,
