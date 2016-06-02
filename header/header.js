@@ -14,6 +14,7 @@ function getuiPerference() {
         preference[parseInt($(this).attr('rel'))]=i;
         //preference.push($(this).attr('rel'));
     });
+    preference[6]=6;
     return preference;
 }
 function savePerference(){

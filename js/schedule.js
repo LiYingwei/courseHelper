@@ -35,11 +35,13 @@ var data = {
 }
 $(document).ready(function(){
     initCoursetype();
+    initCourseInfo();
     getPersonalInfo();
     loadSelectedCourse();
-    initCourseInfo();
+    loadMyExams();
     calcPersonComplete();
     calcPersonPlanned();
+    showPersonalInfo();
     drawGraphByData();
 
 });
@@ -146,24 +148,17 @@ function drawraderchart() {
     var myNewChart = new Chart(ctx).Radar(data);
 }
 
-function getPersonalInfo()
+function showPersonalInfo()
 {
-    if(localStorage["person"]==undefined)
-    {
-        alert("请先点击右上角登陆/同步以获取你的个人信息~");
-    }
-    else
-    {
-        person=eval("["+localStorage["person"]+"]")[0];
-        $("#pname").text(person.name);
-        $("#pyear").text(person.year);
-        $("#pdepartment").text(person.department);
-        $("#pavgscore").text('过低');
-        $("#pmajor").text(person.major);
-        $("#psex").text(person.sex);
-        $("#pallcredits").text(person.calcredits);
-        $("#pneedcredits").text(152);
-    }
+    $("#pname").text(person.name);
+    $("#pyear").text(person.year);
+    $("#pdepartment").text(person.department);
+    $("#pavgscore").text('过低');
+    $("#pmajor").text(person.major);
+    $("#psex").text(person.sex);
+    $("#pallcredits").text(person.calcredits);
+    $("#pneedcredits").text(152);
+
 }
 
 
