@@ -14,6 +14,9 @@ var gpabyteacher=[];
 var gpabycourse=[];
 var gpabyteachercourse=[];
 var gpainited = false;
+var personalplaninited=false;
+
+var perference=[];
 
 var testExamInfo = [
         {
@@ -91,6 +94,18 @@ function initCoursetype()
 		}
 	}
 }
+
+function getPersonalInfo()
+{
+    if(localStorage["person"]==undefined)
+    {
+        alert("请先点击右上角同步以获取你的个人信息~");
+    }
+    else
+    {
+        person=eval("["+localStorage["person"]+"]")[0];
+    }
+}
 function calcPersonComplete(){
 	var extraGeneral=0.0,extraAll=0.0;
 	for(var i=0;i<6;++i)
@@ -116,13 +131,13 @@ function calcPersonComplete(){
 		typelist[kind][attr].complete+=parseFloat(c.credits);
 		if(typelist[kind][attr].complete>typelist[kind][attr].credits+0.01)
 		{
-			if(i==1||i==3||i==5)//通识课
+			if(kind==1||kind==3||kind==5)//通识课
 			{
-				extraGeneral+=typelist[kind][attr].complete-typelist[kind][attr].credit;
+				extraGeneral+=typelist[kind][attr].complete-typelist[kind][attr].credits;
 			}
 			else
 			{
-				extraAll+=typelist[kind][attr].complete-typelist[kind][attr].credit;
+				extraAll+=typelist[kind][attr].complete-typelist[kind][attr].credits;
 			}
 			typelist[kind][attr].complete=typelist[kind][attr].credits;
 		}
@@ -168,17 +183,16 @@ function calcPersonPlanned(){
 			continue;
 		}
 		var kind=coursetype[c.no].kind,attr=coursetype[c.no].attr;
-		
 		typelist[kind][attr].planned+=parseFloat(c.credits);
 		if(typelist[kind][attr].planned>typelist[kind][attr].credits+0.01)
 		{
-			if(i==1||i==3||i==5)//通识课
+			if(kind==1||kind==3||kind==5)//通识课
 			{
-				extraGeneral+=typelist[kind][attr].planned-typelist[kind][attr].credit;
+				extraGeneral+=typelist[kind][attr].planned-typelist[kind][attr].credits;
 			}
 			else
 			{
-				extraAll+=typelist[kind][attr].planned-typelist[kind][attr].credit;
+				extraAll+=typelist[kind][attr].planned-typelist[kind][attr].credits;
 			}
 			typelist[kind][attr].planned=typelist[kind][attr].credits;
 		}
@@ -347,57 +361,6 @@ function drawPieChart(cno) {
 		}
 
 	}
-    //
-    //var grade = [0.8,0.8,0.8,0.8];
-    /*var sum = 0;
-    for(var i = 0;i < grade.length; i++)
-        grade[i] += Math.random(), sum += grade[i];
-    for(var i = 0;i < grade.length; i++)
-        grade[i] = Math.floor(grade[i] * 100 / sum);
-    var pieData = [
-    {
-        value: 170,
-        label: 'A',
-        color: "#F38630",
-        labelColor : 'white',
-        labelFontSize : '16'
-    },
-    {
-        value : grade[1],
-        label: 'B',
-        color: "#F34353",
-        labelColor : 'white',
-        labelFontSize : '16'
-    },
-    {
-        value : grade[2],
-        label: 'C',
-        color: 'blue',
-        labelColor : 'white',
-        labelFontSize : '16'
-    },
-    {
-        value : grade[3],
-        label: 'D',
-        color: "green",
-        labelColor : 'white',
-        labelFontSize : '16'
-    }
-    ];*/
-    /*var pieData = [{
-                value : 30,
-                color : "#F38630",
-                label : 'Sleep',
-                labelColor : 'white',
-                labelFontSize : '16'
-            },
-                  {
-                value : 30,
-                color : "#F34353",
-                label : 'Sleep',
-                labelColor : 'white',
-                labelFontSize : '16'
-            }];*/
     var pieOptions = {
         segmentShowStroke : true,
         animateScale : true,
@@ -451,6 +414,16 @@ function showCourseDetail(cno)
 	$("#dtime").text(courseInfo[cno].arrangeText);
 	$("#dplace").text(courseInfo[cno].arrangeInfo[0].rooms);
 }
+function tempcomparer(a,b)
+{
+	return a.coursetype.kind==b.coursetype.kind?
+		a.test.able==b.test.able?
+		b.coursetype.require==a.coursetype.require?
+		a.coursetype.attr-b.coursetype.attr:
+		b.coursetype.require-a.coursetype.require:
+		b.test.able-a.test.able:
+		perference[a.coursetype.kind]-perference[b.coursetype.kind];
+}
 function clearSelectedCourse()
 {
     selectedCourse=[];
@@ -459,6 +432,7 @@ function clearSelectedCourse()
 }
 function selectCourse(cid)
 {
+	console.log('选课啦:'+cid);
 	if(cid==-1)
 	{
 		alert('错误：不存在的选课号！');
@@ -478,6 +452,7 @@ function selectCourse(cid)
 	}
     selectedCourse.push(cid);
     saveSelectedCourse();
+    calcPersonPlanned();
 	$('#modal_courseDetail').modal('hide');
     $("#tipModal").modal("hide");
     drawcoursetable();
@@ -486,7 +461,7 @@ function selectCourse(cid)
 function withdrawCourse(cid)
 {
 	var remove=selectedCourse.indexOf(cid);
-	console.log(cid);
+	console.log('退课啦:'+cid);
 	if(remove==-1)
 	{
 		alert('错误：没有选过这门课！');
@@ -503,6 +478,7 @@ function withdrawCourse(cid)
 	saveExamInfo();
     selectedCourse.splice(remove,1);
     saveSelectedCourse();
+    calcPersonPlanned();
 	$('#modal_courseDetail').modal('hide');
 	$("#tipModal").modal("hide");
     drawcoursetable();
@@ -547,6 +523,13 @@ function selectableTest(cid)
         	}
         }
     }
+    for(var i in person.courses)
+    {
+    	if(cinfo.no.split('.')[0]==person.courses[i].no)
+    	{
+    		return {able:1,error:'你已经修读过这门课了。',short:'重修'};
+    	}
+    }
     for(var j in cinfo.arrangeInfo)
     {
         var arrange=cinfo.arrangeInfo[j];
@@ -561,7 +544,7 @@ function selectableTest(cid)
         	{
         		if(oldCampus!=newCampus)
         		{
-        			return {able:1,error:'这门课之前已选一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'跨校区'};
+        			return {able:1,error:'这门课前紧跟一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'选课'};
         		}
         	}
         }
@@ -573,7 +556,7 @@ function selectableTest(cid)
         	{
         		if(oldCampus!=newCampus)
         		{
-        			return {able:1,error:'这门课之后已选一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'跨校区'};
+        			return {able:1,error:'这门课后紧跟一门跨校区课：' + courseInfo[selectedAtTime[k][arrange.weekDay]].name,short:'选课'};
         		}
         	}
         }
@@ -581,7 +564,7 @@ function selectableTest(cid)
     var examConflict=examTimeTest(cid);
     if(examConflict!=-1)
     {
-    	return {able:1,error:'这门课考试时间与已安排考试时间过于相近：' + myExams[examConflict].title,short:'考试冲突'};
+    	return {able:1,error:'这门课考试时间与已安排考试时间过于相近：' + myExams[examConflict].title,short:'选课'};
     }
     return {able:2,error:'',short:''};
 }
