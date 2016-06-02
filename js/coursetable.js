@@ -9,6 +9,7 @@ $(document).ready(function(){
     calcPersonComplete();
     calcPersonPlanned();
 	drawcoursetable();
+    $('#search-bar').show();
 });
 function drawcoursetable() {
 	var tablehtml;
