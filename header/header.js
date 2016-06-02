@@ -245,6 +245,13 @@ $('#the-basics .typeahead').typeahead({
   }
 });
 
+$('#the-basics .typeahead').keypress(function (e) {
+    if (e.which == 13) {
+        alert("接口在headerjs第250行 ：）");
+        return false;    //<---- Add this line
+    }
+});
+
 /*$("#the-basics .typeahead").on("click", function () {
     $("#the-basics .typeahead").typeahead("open");
 });*/
