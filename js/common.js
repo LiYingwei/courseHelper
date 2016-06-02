@@ -116,13 +116,13 @@ function calcPersonComplete(){
 		typelist[kind][attr].complete+=parseFloat(c.credits);
 		if(typelist[kind][attr].complete>typelist[kind][attr].credits+0.01)
 		{
-			if(i==1||i==3||i==5)//通识课
+			if(kind==1||kind==3||kind==5)//通识课
 			{
-				extraGeneral+=typelist[kind][attr].complete-typelist[kind][attr].credit;
+				extraGeneral+=typelist[kind][attr].complete-typelist[kind][attr].credits;
 			}
 			else
 			{
-				extraAll+=typelist[kind][attr].complete-typelist[kind][attr].credit;
+				extraAll+=typelist[kind][attr].complete-typelist[kind][attr].credits;
 			}
 			typelist[kind][attr].complete=typelist[kind][attr].credits;
 		}
@@ -168,17 +168,16 @@ function calcPersonPlanned(){
 			continue;
 		}
 		var kind=coursetype[c.no].kind,attr=coursetype[c.no].attr;
-		
 		typelist[kind][attr].planned+=parseFloat(c.credits);
 		if(typelist[kind][attr].planned>typelist[kind][attr].credits+0.01)
 		{
-			if(i==1||i==3||i==5)//通识课
+			if(kind==1||kind==3||kind==5)//通识课
 			{
-				extraGeneral+=typelist[kind][attr].planned-typelist[kind][attr].credit;
+				extraGeneral+=typelist[kind][attr].planned-typelist[kind][attr].credits;
 			}
 			else
 			{
-				extraAll+=typelist[kind][attr].planned-typelist[kind][attr].credit;
+				extraAll+=typelist[kind][attr].planned-typelist[kind][attr].credits;
 			}
 			typelist[kind][attr].planned=typelist[kind][attr].credits;
 		}
