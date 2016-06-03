@@ -20,7 +20,7 @@ var perference=[];
 var coursefilter=[];
 
 var testExamInfo = [
-        {
+        /*{
             title  : '人机交互',
             start  : '2016-05-10',
             time   : '08:00',
@@ -47,7 +47,7 @@ var testExamInfo = [
             time   : '17:00',
             position:'Z计算机机房1',
             method : '1'
-        }
+        }*/
     ];
 
 function loadMyExams()
@@ -72,10 +72,27 @@ function saveExamInfo()
 }
 function deleteExam(examInfoIndex)
 {
-    myExams.splice(examInfoIndex,1);
-    sortExamInfo();
-    saveExamInfo();
-    refreshPage();
+	swal({
+        title: "确定删除吗？",
+        text: "你将失去这门考试!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "确定",   
+        cancelButtonText: "取消",   
+        closeOnConfirm: false,   
+        closeOnCancel: false 
+    }, function(isConfirm){   
+        if (isConfirm) {
+            swal("删除成功！", "不用考试啦~！", "success");
+            myExams.splice(examInfoIndex,1);
+		    sortExamInfo();
+		    saveExamInfo();
+		    refreshPage();
+        } else {     
+            swal("取消惹", "果然没有勇气放弃吧哈哈哈", "error");   
+        } 
+    });
 }
 function initCoursetype()
 {
@@ -101,10 +118,13 @@ function getPersonalInfo()
     if(localStorage["person"]==undefined)
     {
         alert("请先点击右上角同步以获取你的个人信息~");
+        window.location.href="login.html";
+        return false;
     }
     else
     {
         person=eval("["+localStorage["person"]+"]")[0];
+        return true;
     }
 }
 function calcPersonComplete(){
@@ -518,6 +538,7 @@ function selectCourse(cid)
     }
     else
     {
+    	localStorage['refreshHint']='选课成功，到课程表页面查看你的课表吧！';
     	location.href=location.href;
     }
 }
@@ -551,6 +572,7 @@ function withdrawCourse(cid)
     }
     else
     {
+    	localStorage['refreshHint']='退课成功，到课程表页面查看你的课表吧！';
     	location.href=location.href;
     }
 }

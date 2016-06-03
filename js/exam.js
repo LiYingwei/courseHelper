@@ -128,15 +128,32 @@ function commitModify()
 }
 function removeAllPast()
 {
-
-    for(var i=myExams.length-1;i>=0;i--)
-    {
-        var today = new Date();
-        var time = new Date(myExams[i].start);
-        var count=Math.floor((time.getTime() - today.getTime())/ 86400000 + 1);
-        if(count<=0)myExams.splice(i,1);
-    }
-    sortExamInfo();
-    saveExamInfo();
-    refreshPage();
+    swal({
+        title: "确定删除吗？",
+        text: "你将失去所有考过的试!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "确定",   
+        cancelButtonText: "取消",   
+        closeOnConfirm: false,   
+        closeOnCancel: false 
+    }, function(isConfirm){   
+        if (isConfirm) {
+            swal("删除成功！", "已经全部删除！", "success");
+            for(var i=myExams.length-1;i>=0;i--)
+            {
+                var today = new Date();
+                var time = new Date(myExams[i].start);
+                var count=Math.floor((time.getTime() - today.getTime())/ 86400000 + 1);
+                if(count<=0)myExams.splice(i,1);
+            }
+            sortExamInfo();
+            saveExamInfo();
+            refreshPage(); 
+        } else {     
+            swal("取消惹", "果然没有勇气吧哈哈哈", "error");   
+        } 
+    });
+            
 }

@@ -36,14 +36,23 @@ var data = {
 $(document).ready(function(){
     initCoursetype();
     initCourseInfo();
-    getPersonalInfo();
+    if(!getPersonalInfo())return;
     loadSelectedCourse();
     loadMyExams();
     calcPersonComplete();
     calcPersonPlanned();
     showPersonalInfo();
     drawGraphByData();
-
+    if(localStorage['refreshHint']!=null)
+    {
+        $.notify({message: localStorage['refreshHint']},{type: 'success'});
+        localStorage.removeItem('refreshHint');
+    }
+    if(selectedCourse.length==0&&personlocalStorage['newbie']==null)
+    {
+        $.notify({message: '你还没有排课，快点击课程种类标签排课吧！'},{type: 'success'});
+        localStorage['newbie']=1;
+    }
 });
 
 
@@ -147,7 +156,7 @@ function showChartForm(No) {
                 html += '<td class="className" data-toggle="modal" onclick="showCourseDetail(\''+bestCourse.no+'\')">' + bestCourse.name + '</td>';
             }
         }
-        html += '<td>' + '<button type="button" class="btn btn-success btn-xs" data-toggle="modal" onclick="moreClassOfThisType('+No+','+i+')">更多</button>' + '</td>';
+        html += '<td>' + '<button type="button" style="background-color:#1abc9c" class="btn btn-success btn-xs" data-toggle="modal" onclick="moreClassOfThisType('+No+','+i+')">更多</button>' + '</td>';
         html += '</tr>';
     }
     html += '</tbody>';
@@ -168,11 +177,13 @@ function showPersonalInfo()
     $("#pname").text(person.name);
     $("#pyear").text(person.year);
     $("#pdepartment").text(person.department);
-    $("#pavgscore").text('过低');
+    //$("#pavgscore").text('过低');
     $("#pmajor").text(person.major);
-    $("#psex").text(person.sex);
+    $("#pid").text(person.id);
+    //$("#psex").text(person.sex);
     $("#pallcredits").text(person.calcredits);
     $("#pneedcredits").text(152);
+    $("#pxuezhi").text('四年');
 }
 function moreClassOfThisType(kind,attr)
 {

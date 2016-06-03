@@ -1,3 +1,16 @@
+.tagsinput-primary {
+    float: left;
+}
+
+#courseCredit {
+    float: right;
+    font-size: 15px;
+}
+#courseCredit span {
+    color: green;
+}
+
+
 #tipModal .modal-content {
     /* new custom width */
     width: 750px;
