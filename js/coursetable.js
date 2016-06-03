@@ -1,5 +1,7 @@
 //my:585302,590248,583838,587271,586870,586521,588193,590458,585851,588041
 
+/*tablehtml += '<p>总学分：'+ getSelectedCredits() +'</p>';*/
+
 $('#modal_courseDetail').on('hidden.bs.modal', function (e) {
     $('body').addClass('modal-open');
 });
@@ -81,7 +83,7 @@ function drawcoursetable() {
     }
     tablehtml+='</tbody>';
     tablehtml += '</table>';
-    tablehtml += '<p>总学分：'+ getSelectedCredits() +'</p>';
+    getSelectedCredits();
 	$('#coursetable').html(tablehtml);
     $("tbody>tr>.xkCell").hover(function(){
         $(this).css("background-color","#EEEEEE");
@@ -110,6 +112,7 @@ function getSelectedCredits()
     {
         res+=courseInfo[selectedCourse[i]].credits;
     }
+    $('#courseCredit').html("已选学分：<span>"+ res.toFixed(1) + "</span>");
     return res;
 }
 function getCoursesResult(list)
