@@ -235,6 +235,7 @@ function initCourseInfo()
         cinfo.arrangeText="";
         courseInfo[cinfo.id]=cinfo;
         courseInfo[cinfo.no]=cinfo;
+        cinfo.credits=parseFloat(cinfo.credits);
         var collectCellInfo=true;
         if(coursefilter[0]!=null)//课程种类搜索
         {
