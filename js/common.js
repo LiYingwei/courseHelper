@@ -63,7 +63,7 @@ function loadMyExams()
 }
 function sortExamInfo()
 {
-    myExams.sort(function(a,b){return a.start==b.start?a.time-b.time:a.start-b.start;});
+    myExams.sort(function(a,b){return a.start==b.start?a.time==b.time?0:a.time>b.time?1:-1:a.start>b.start?1:-1;});
 }
 function saveExamInfo()
 {
