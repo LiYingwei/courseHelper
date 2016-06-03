@@ -43,7 +43,16 @@ $(document).ready(function(){
     calcPersonPlanned();
     showPersonalInfo();
     drawGraphByData();
-
+    if(localStorage['refreshHint']!=null)
+    {
+        $.notify({message: localStorage['refreshHint']},{type: 'success'});
+        localStorage.removeItem('refreshHint');
+    }
+    if(selectedCourse.length==0&&localStorage['newbie']!=null)
+    {
+        $.notify({message: '你还没有排课，快点击课程种类标签排课吧！'},{type: 'success'});
+    }
+    localStorage['newbie']=1;
 });
 
 

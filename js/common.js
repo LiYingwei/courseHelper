@@ -101,6 +101,7 @@ function getPersonalInfo()
     if(localStorage["person"]==undefined)
     {
         alert("请先点击右上角同步以获取你的个人信息~");
+        window.location.href="login.html";
     }
     else
     {
@@ -518,6 +519,7 @@ function selectCourse(cid)
     }
     else
     {
+    	localStorage['refreshHint']='选课成功，到课程表页面查看你的课表吧！';
     	location.href=location.href;
     }
 }
@@ -551,6 +553,7 @@ function withdrawCourse(cid)
     }
     else
     {
+    	localStorage['refreshHint']='退课成功，到课程表页面查看你的课表吧！';
     	location.href=location.href;
     }
 }
