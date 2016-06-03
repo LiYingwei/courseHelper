@@ -36,7 +36,7 @@ var data = {
 $(document).ready(function(){
     initCoursetype();
     initCourseInfo();
-    getPersonalInfo();
+    if(!getPersonalInfo())return;
     loadSelectedCourse();
     loadMyExams();
     calcPersonComplete();
@@ -48,11 +48,11 @@ $(document).ready(function(){
         $.notify({message: localStorage['refreshHint']},{type: 'success'});
         localStorage.removeItem('refreshHint');
     }
-    if(selectedCourse.length==0&&localStorage['newbie']==null)
+    if(selectedCourse.length==0&&personlocalStorage['newbie']==null)
     {
         $.notify({message: '你还没有排课，快点击课程种类标签排课吧！'},{type: 'success'});
+        localStorage['newbie']=1;
     }
-    localStorage['newbie']=1;
 });
 
 

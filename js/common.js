@@ -102,10 +102,12 @@ function getPersonalInfo()
     {
         alert("请先点击右上角同步以获取你的个人信息~");
         window.location.href="login.html";
+        return false;
     }
     else
     {
         person=eval("["+localStorage["person"]+"]")[0];
+        return true;
     }
 }
 function calcPersonComplete(){
