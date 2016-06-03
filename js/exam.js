@@ -17,7 +17,7 @@ $('#calendar').fullCalendar({
         today: '今天',
         //month: '月视图'
     },
-    weekends: false,
+    /*weekends: false,*/
     titleFormat: {
         month: 'YYYY年 MMMM月'
     },

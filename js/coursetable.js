@@ -1,5 +1,9 @@
 //my:585302,590248,583838,587271,586870,586521,588193,590458,585851,588041
 
+$('#modal_courseDetail').on('hidden.bs.modal', function (e) {
+    $('body').addClass('modal-open');
+});
+
 $(document).ready(function(){
     initCoursetype();
     initFilter();
