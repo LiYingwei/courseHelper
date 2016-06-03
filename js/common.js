@@ -254,6 +254,8 @@ function initCourseInfo()
             var arrange=cinfo.arrangeInfo[j];
             arrange.cid=cinfo.id;
             if(arrange.weekDay==7)arrange.weekDay=0;
+            arrange.startUnit=parseInt(arrange.startUnit);
+            arrange.endUnit=parseInt(arrange.endUnit);
             cinfo.arrangeText+="日一二三四五六"[arrange.weekDay]+arrange.startUnit+"-"+arrange.endUnit+" ";
             if(collectCellInfo)
             {
@@ -563,7 +565,7 @@ function examTimeTest(cid)
 
 		if(delta<0.1249)
 		{
-			return i;
+			return {exam:i,delta:Math.round(delta*1440)};
 		}
 	}
 	return -1;
@@ -631,7 +633,11 @@ function selectableTest(cid)
     var examConflict=examTimeTest(cid);
     if(examConflict!=-1)
     {
-    	return {able:1,error:'这门课考试时间与已安排考试时间过于相近：' + myExams[examConflict].title,short:'选课'};
+    	if(examConflict.delta==0)
+    	{
+    		return {able:1,error:'这门课考试时间与某已安排考试时间重合：' + myExams[examConflict.exam].title,short:'选课'};
+    	}
+    	return {able:1,error:'这门课考试时间与某已安排考试时间差小于' + examConflict.delta + '分钟：' + myExams[examConflict.exam].title,short:'选课'};
     }
     return {able:2,error:'',short:''};
 }
