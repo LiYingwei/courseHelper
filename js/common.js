@@ -17,6 +17,7 @@ var gpainited = false;
 var personalplaninited=false;
 
 var perference=[];
+var coursefilter=[];
 
 var testExamInfo = [
         {
@@ -62,7 +63,7 @@ function loadMyExams()
 }
 function sortExamInfo()
 {
-    myExams.sort(function(a,b){return a.start==b.start?a.time-b.time:a.start-b.start;});
+    myExams.sort(function(a,b){return a.start==b.start?a.time==b.time?0:a.time>b.time?1:-1:a.start>b.start?1:-1;});
 }
 function saveExamInfo()
 {
@@ -234,15 +235,35 @@ function initCourseInfo()
         cinfo.arrangeText="";
         courseInfo[cinfo.id]=cinfo;
         courseInfo[cinfo.no]=cinfo;
-        for(var j in cinfo.arrangeInfo)
+        cinfo.credits=parseFloat(cinfo.credits);
+        var collectCellInfo=true;
+        if(coursefilter[0]!=null)//课程种类搜索
+        {
+        	var type=coursetype[cinfo.no.split('.')[0]];
+			if(type==null||type.kind!=coursefilter[0].kind||type.attr!=coursefilter[0].attr)
+				collectCellInfo=false;
+        }
+        if(coursefilter[1]!=null)//文字搜索
+        {
+        	if(!cinfo.no.toUpperCase().includes(coursefilter[1].toUpperCase())&&
+        		!cinfo.name.toUpperCase().includes(coursefilter[1].toUpperCase())&&
+        		!cinfo.teachers.toUpperCase().includes(coursefilter[1].toUpperCase()))
+        		collectCellInfo=false;
+        }
+    	for(var j in cinfo.arrangeInfo)
         {
             var arrange=cinfo.arrangeInfo[j];
             arrange.cid=cinfo.id;
             if(arrange.weekDay==7)arrange.weekDay=0;
+            arrange.startUnit=parseInt(arrange.startUnit);
+            arrange.endUnit=parseInt(arrange.endUnit);
             cinfo.arrangeText+="日一二三四五六"[arrange.weekDay]+arrange.startUnit+"-"+arrange.endUnit+" ";
-            for(var k=arrange.startUnit;k<=arrange.endUnit;++k)
+            if(collectCellInfo)
             {
-                selectableByTime[k][arrange.weekDay].push(arrange);
+	            for(var k=arrange.startUnit;k<=arrange.endUnit;++k)
+	            {
+	                selectableByTime[k][arrange.weekDay].push(arrange);
+	            }
             }
         }
     }
@@ -414,6 +435,41 @@ function showCourseDetail(cno)
 	$("#dtime").text(courseInfo[cno].arrangeText);
 	$("#dplace").text(courseInfo[cno].arrangeInfo[0].rooms);
 }
+
+function prepareSelectAtTime()
+{
+    var visibleCell=[];
+    for(var i = 1; i <= 14; ++i)
+    {
+        selectedAtTime[i]=[];
+        selectedArrangeAtTime[i]=[];
+        visibleCell[i]=[];
+        for(var j = 0; j < 7; ++j)
+        {
+            selectedAtTime[i][j]=0;
+            selectedArrangeAtTime[i][j]=undefined;
+            visibleCell[i][j]=true;
+        }
+    }
+    for(var i in selectedCourse)
+    {
+        var cinfo=courseInfo[selectedCourse[i]];
+        for(var j in cinfo.arrangeInfo)
+        {
+            var arrange=cinfo.arrangeInfo[j];
+            if(arrange.weekDay==7)arrange.weekDay=0;
+            selectedAtTime[arrange.startUnit][arrange.weekDay]=selectedCourse[i];
+            selectedArrangeAtTime[arrange.startUnit][arrange.weekDay]=arrange;
+            for(var k=arrange.startUnit+1;k<=arrange.endUnit;++k)
+            {
+                selectedAtTime[k][arrange.weekDay]=selectedCourse[i];
+                selectedArrangeAtTime[k][arrange.weekDay]=arrange;
+                visibleCell[k][arrange.weekDay]=false;
+            }
+        }
+    }
+    return visibleCell;
+}
 function tempcomparer(a,b)
 {
 	return a.coursetype.kind==b.coursetype.kind?
@@ -455,8 +511,15 @@ function selectCourse(cid)
     calcPersonPlanned();
 	$('#modal_courseDetail').modal('hide');
     $("#tipModal").modal("hide");
-    drawcoursetable();
     $.notify({message: '选课成功'},{type: 'success'});
+    if($('#coursetable').length>0)
+    {
+    	drawcoursetable();
+    }
+    else
+    {
+    	location.href=location.href;
+    }
 }
 function withdrawCourse(cid)
 {
@@ -481,8 +544,15 @@ function withdrawCourse(cid)
     calcPersonPlanned();
 	$('#modal_courseDetail').modal('hide');
 	$("#tipModal").modal("hide");
-    drawcoursetable();
     $.notify({message: '退课成功'},{type: 'success'});
+    if($('#coursetable').length>0)
+    {
+    	drawcoursetable();
+    }
+    else
+    {
+    	location.href=location.href;
+    }
 }
 function examTimeTest(cid)
 {
@@ -496,7 +566,7 @@ function examTimeTest(cid)
 
 		if(delta<0.1249)
 		{
-			return i;
+			return {exam:i,delta:Math.round(delta*1440)};
 		}
 	}
 	return -1;
@@ -564,7 +634,21 @@ function selectableTest(cid)
     var examConflict=examTimeTest(cid);
     if(examConflict!=-1)
     {
-    	return {able:1,error:'这门课考试时间与已安排考试时间过于相近：' + myExams[examConflict].title,short:'选课'};
+    	if(examConflict.delta==0)
+    	{
+    		return {able:1,error:'这门课考试时间与某已安排考试时间重合：' + myExams[examConflict.exam].title,short:'选课'};
+    	}
+    	return {able:1,error:'这门课考试时间与某已安排考试时间差小于' + examConflict.delta + '分钟：' + myExams[examConflict.exam].title,short:'选课'};
     }
     return {able:2,error:'',short:''};
+}
+
+function getCourseTypeInfo(cno)
+{
+    var courseID=cno.split('.')[0];
+    if(coursetype[courseID]==null)return {kind:6,attr:0,require:0};
+    var kind=coursetype[courseID].kind,attr=parseInt(coursetype[courseID].attr);
+    //console.log(typelist[kind][attr].credits+","+typelist[kind][attr].planned);
+    var require=typelist[kind][attr].credits-typelist[kind][attr].planned;
+    return {kind:kind,attr:attr,require:require};
 }

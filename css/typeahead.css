@@ -37,3 +37,7 @@
 .tt-suggestion p {
   margin: 0;
 }
+
+.empty-message{
+  text-align: center;
+}
