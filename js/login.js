@@ -13,7 +13,6 @@ $(function(){
 						icon: 'glyphicon glyphicon-unchecked'
 					}
 			};
-
 		$button.on('click', function () {
 			$checkbox.prop('checked', !$checkbox.is(':checked'));
 			$checkbox.triggerHandler('change');
@@ -56,4 +55,8 @@ $(function(){
 		}
 		init();
 	});
+});
+$('#loginbutton').unbind('click').click(function(){
+	//alert($('[name=IDToken1]').val());
+	personGet.id=$('[name=IDToken1]').val();
 });

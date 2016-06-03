@@ -1,4 +1,4 @@
-$('.modal').modal('show');
+$('#syncModal').modal('show');
 /*$.get("http://www.urp.fudan.edu.cn:78/epstar/app/fudan/ScoreManger/ScoreViewer/Student/Course.jsp",function(){
 	alert("ok!");
 });*/
@@ -11,19 +11,28 @@ $('.modal').modal('show');
     } 
 }); */
 var textGet;
-var personGet={};
 //$(document).ready(function(){
 //	postToIframe({'plan.id':'9279','majorPlanId':'9279'},"http://jwfw.fudan.edu.cn/eams/stdPlanCompletedState!instantAudit.action",'iframe1');
 //});
+$(document).ready(function(){
+	$("#postToIframe").submit();
+})
+var posted=0;
 $('#iframe1').load(function(){
 	
-
-	$('.modal p').html('请手动把urp上的已修课程情况导入本应用：<br/>1.在下面框架内单击鼠标，通过Ctrl+A全选，Ctrl+C复制；<br/>2.在粘贴文本框内通过Ctrl+V粘贴，然后按确定。<br/>由于这个应用是离线存储的，所以你也不用担心什么信息泄露。');
+	$('.modal p').html('请手动把urp上的已修课程情况导入本应用：<br/>(学校教务服务的计划对比可能有错，没关系，我们只获取已修课程数据)<br/>1.在下面框架内单击鼠标，通过Ctrl+A全选，Ctrl+C复制；<br/>2.在粘贴文本框内通过Ctrl+V粘贴，然后按确定。<br/>');
 	$('#confirmCommitPersonInfo').attr('disabled',false);
 });
 $('#paste_text').on('keyup',function(){
 	textGet=$('#paste_text').val();
+	/*
 	if(textGet.indexOf("学生基本信息")!=-1&&textGet.indexOf("以下是你的成绩信息:")!=-1)
+	{
+		$('#paste_text').val("已经读取，请稍候……");
+		$('#paste_text').css("color","green");
+		extractPersonInfo(textGet);
+	}*/
+	if(textGet.indexOf("计划比对结果详细信息")!=-1&&textGet.indexOf("(三) 通识教育选修课程(所有子项均应满足要求)")!=-1)
 	{
 		$('#paste_text').val("已经读取，请稍候……");
 		$('#paste_text').css("color","green");
@@ -33,7 +42,7 @@ $('#paste_text').on('keyup',function(){
 function forceCommitPersonInfo()
 {
 	textGet=$('#paste_text').val();
-	if(textGet.indexOf("学生基本信息")!=-1&&textGet.indexOf("以下是你的成绩信息:")!=-1)
+	if(textGet.indexOf("计划比对结果详细信息")!=-1&&textGet.indexOf("(三) 通识教育选修课程(所有子项均应满足要求)")!=-1)
 	{
 		$('#paste_text').val("读取成功！请稍后……");
 		$('#paste_text').css("color","green");
@@ -46,13 +55,21 @@ function forceCommitPersonInfo()
 }
 function extractPersonInfo(textGet)
 {
-	personGet.name=strBetween(textGet,"姓名：\t","\t");
-	personGet.id=strBetween(textGet,"学号：\t","\t");
-	personGet.sex=strBetween(textGet,"性别：\t","\n");
-	personGet.year=strBetween(textGet,"年级：\t","\t");
-	personGet.department=strBetween(textGet,"院系：\t","\t");
-	personGet.major=strBetween(textGet,"专业：\t","\n");
-	personGet.credits=strBetween(textGet,"总学分：\t","\t");
+	personGet.name="无名氏";
+	personGet.department="计算机科学技术学院";
+	personGet.major="计算机科学与技术";
+	if(personGet.id!=null&&personGet.id!='')
+	{
+		personGet.year='20'+personGet.id.substr(0,2);
+		
+	}
+	//personGet.name=strBetween(textGet,"姓名：\t","\t");
+	//personGet.id=strBetween(textGet,"学号：\t","\t");
+	//personGet.sex=strBetween(textGet,"性别：\t","\n");
+	//personGet.year=strBetween(textGet,"年级：\t","\t");
+	//personGet.department=strBetween(textGet,"院系：\t","\t");
+	//personGet.major=strBetween(textGet,"专业：\t","\n");
+	//personGet.credits=strBetween(textGet,"总学分：\t","\t");
 	personGet.courses=[];
 	personGet.calcredits=0;
 	var regex =new RegExp( /\t[A-Z]{3,4}[0-9]{5,6}\t[^\t]*\t[^\t]*\t/g);
