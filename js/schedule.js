@@ -168,11 +168,13 @@ function showPersonalInfo()
     $("#pname").text(person.name);
     $("#pyear").text(person.year);
     $("#pdepartment").text(person.department);
-    $("#pavgscore").text('过低');
+    //$("#pavgscore").text('过低');
     $("#pmajor").text(person.major);
-    $("#psex").text(person.sex);
+    $("#pid").text(person.id);
+    //$("#psex").text(person.sex);
     $("#pallcredits").text(person.calcredits);
     $("#pneedcredits").text(152);
+    $("#pxuezhi").text('四年');
 }
 function moreClassOfThisType(kind,attr)
 {

@@ -1,4 +1,4 @@
-$('#syncModal').modal('show');
+
 /*$.get("http://www.urp.fudan.edu.cn:78/epstar/app/fudan/ScoreManger/ScoreViewer/Student/Course.jsp",function(){
 	alert("ok!");
 });*/
@@ -10,11 +10,15 @@ $('#syncModal').modal('show');
         alert(data);
     } 
 }); */
+var personGet={};
 var textGet;
 //$(document).ready(function(){
 //	postToIframe({'plan.id':'9279','majorPlanId':'9279'},"http://jwfw.fudan.edu.cn/eams/stdPlanCompletedState!instantAudit.action",'iframe1');
 //});
 $(document).ready(function(){
+	if(localStorage['username']!=null)
+		personGet.id=$('#textid').val(localStorage['username']);
+	$('#infoModal').modal('show');
 	$("#postToIframe").submit();
 })
 var posted=0;
@@ -39,6 +43,15 @@ $('#paste_text').on('keyup',function(){
 		extractPersonInfo(textGet);
 	}
 });
+function commitPersonalForm()
+{
+	personGet.name=$('#textname').val();
+	personGet.id=$('#textid').val();
+	personGet.major=$('#textmajor').val();
+	personGet.department=$('#textdepartment').val();
+	$('#infoModal').modal('hide');
+	$('#syncModal').modal('show');
+}
 function forceCommitPersonInfo()
 {
 	textGet=$('#paste_text').val();
@@ -55,13 +68,9 @@ function forceCommitPersonInfo()
 }
 function extractPersonInfo(textGet)
 {
-	personGet.name="无名氏";
-	personGet.department="计算机科学技术学院";
-	personGet.major="计算机科学与技术";
-	if(personGet.id!=null&&personGet.id!='')
+	if(personGet.id!=null&&personGet.id.length==11)
 	{
 		personGet.year='20'+personGet.id.substr(0,2);
-		
 	}
 	//personGet.name=strBetween(textGet,"姓名：\t","\t");
 	//personGet.id=strBetween(textGet,"学号：\t","\t");

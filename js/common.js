@@ -18,7 +18,6 @@ var personalplaninited=false;
 
 var perference=[];
 var coursefilter=[];
-var personGet={};
 
 var testExamInfo = [
         {
