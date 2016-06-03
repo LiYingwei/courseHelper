@@ -63,7 +63,7 @@ function loadMyExams()
 }
 function sortExamInfo()
 {
-    myExams.sort(function(a,b){return a.start==b.start?a.time-b.time:a.start-b.start;});
+    myExams.sort(function(a,b){return a.start==b.start?a.time==b.time?0:a.time>b.time?1:-1:a.start>b.start?1:-1;});
 }
 function saveExamInfo()
 {
@@ -235,6 +235,7 @@ function initCourseInfo()
         cinfo.arrangeText="";
         courseInfo[cinfo.id]=cinfo;
         courseInfo[cinfo.no]=cinfo;
+        cinfo.credits=parseFloat(cinfo.credits);
         var collectCellInfo=true;
         if(coursefilter[0]!=null)//课程种类搜索
         {
