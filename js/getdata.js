@@ -81,8 +81,8 @@ function extractPersonInfo(textGet)
 	//personGet.credits=strBetween(textGet,"总学分：\t","\t");
 	personGet.courses=[];
 	personGet.calcredits=0;
-	var regex =new RegExp( /\t[A-Z]{3,4}[0-9]{5,6}\t[^\t]*\t[^\t]*\t/g);
-	var getCourses=textGet.match(regex);
+	var regex =new RegExp( /\t([A-Z]{3,4}[0-9]{5,6})\t([^\s]+)\t([0-9\.]+)\t([0-9\.]+)\t/g);
+	var getCourses=textGet.replace(' ','\t').match(regex);
 	for(var i in getCourses)
 	{
 		str=getCourses[i].split('\t');
