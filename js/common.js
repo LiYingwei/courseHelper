@@ -197,7 +197,7 @@ function calcPersonPlanned(){
 	}
     for(var i in selectedCourse)
     {
-        var c={no:courseInfo[selectedCourse[i]].code,credits:courseInfo[selectedCourse[i]].credits};
+        var c={no:courseInfo[selectedCourse[i]].no.split('.')[0],credits:courseInfo[selectedCourse[i]].credits};
 		if(coursetype[c.no]==undefined)
 		{
 			extraAll+=c.credits;
