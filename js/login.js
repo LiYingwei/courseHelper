@@ -1,4 +1,4 @@
-$("#login_goto").attr("value",window.location.href.replace("login.html","getdata.html"));
+$("#login_goto").attr("value",window.location.href);
 $(function(){
     $('.button-checkbox').each(function(){
 		var $widget = $(this),
@@ -13,7 +13,6 @@ $(function(){
 						icon: 'glyphicon glyphicon-unchecked'
 					}
 			};
-
 		$button.on('click', function () {
 			$checkbox.prop('checked', !$checkbox.is(':checked'));
 			$checkbox.triggerHandler('change');
@@ -56,4 +55,33 @@ $(function(){
 		}
 		init();
 	});
+});
+$(document).ready(function(){
+	$('#loginbutton').click(function(){
+		//alert($('[name=IDToken1]').val());
+		localStorage['username']=$('[name=IDToken1]').val();
+	});
+});
+var killevent=false;
+$('#iframe1').load(function(){
+	if(killevent)
+	{
+		killevent=false;
+		return;
+	}
+	var addr="";
+	try
+	{
+		addr=$('#iframe1')[0].contentWindow.location.href;
+		if(addr==window.location.href)
+		{
+			window.location.href="getdata.html";
+		}
+	}
+	catch(err){}
+	$('#errdiv').css('height','500px').css('width','960px');
+	$('#errdiv p').html('登陆失败，请手动在urp上登陆！');
+	$('#login').hide();
+	$('#iframe1')[0].contentWindow.location.href="https://uis1.fudan.edu.cn/amserver/UI/Login?goto=" + window.location.href;
+	killevent=true;
 });

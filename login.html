@@ -31,7 +31,7 @@
     
     <div id="login" class="row" style="margin-top:20px">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-    <form role="form" action="https://uis1.fudan.edu.cn/amserver/UI/Login" method="post">
+    <form role="form" action="https://uis1.fudan.edu.cn/amserver/UI/Login" method="post" target="iframe1">
       <fieldset>
         <h2>uis登录</h2>
 
@@ -55,7 +55,7 @@
         <hr class="colorgraph">
         <div class="row">
           <div class="col-xs-6 col-sm-6 col-md-6 col-xs-offset-6">
-              <input type="submit" class="btn btn-lg btn-success btn-block" value="登陆">
+              <input type="submit" id="loginbutton" class="btn btn-lg btn-success btn-block" value="登陆">
           </div>
           <!--div class="col-xs-6 col-sm-6 col-md-6">
             <a href="" class="btn btn-lg btn-primary btn-block">Register</a>
@@ -65,13 +65,19 @@
     </form>
     </div>
     </div>
-
+    <div style="margin: 0 auto;height: 1px;width:1px;" id="errdiv"> 
+      <p style="color:red" align="center"></p>
+      <iframe src="" width="100%" height="100%" id="iframe1" name="iframe1" align="center"> 
+        您的浏览器并不支持框架，话说哪来的那么破的浏览器 
+      </iframe>
+    </div>
     <script src="dist/js/vendor/jquery.min.js"></script>
     <script src="dist/js/vendor/video.js"></script>
     <script src="dist/js/flat-ui.min.js"></script>
     <script src="dist/js/vendor/Chart.min.js"></script>
     <script src="docs/assets/js/application.js"></script>
     <script src="header/header.js"></script>
+    <script src="js/common.js"></script>
     <script src="js/login.js"></script>
   </body>
 </html>

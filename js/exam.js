@@ -17,7 +17,7 @@ $('#calendar').fullCalendar({
         today: '今天',
         //month: '月视图'
     },
-    weekends: false,
+    /*weekends: false,*/
     titleFormat: {
         month: 'YYYY年 MMMM月'
     },
@@ -29,6 +29,17 @@ $('#calendar').fullCalendar({
         //right: 'month'
     },
     events: myExams,
+    eventClick:function(event){
+        for(var i in myExams)
+        {
+            if(myExams[i].title==event.title)
+            {
+                modifyExam(i);
+                $("#myModal").modal();
+                break;
+            }
+        }
+    }
 });
 
 function loadCountDown(myExams) {
@@ -90,6 +101,13 @@ function modifyExam(examInfoIndex)
         $("#modifyExamInfo #method").val(myExams[examInfoIndex].method);
         $('.selectpicker').selectpicker('val', myExams[examInfoIndex].method);
     }
+    else
+    {
+        $("#modifyExamInfo #title").val('');
+        $("#modifyExamInfo #date_time").val('2016-07-01 09:00');
+        $("#modifyExamInfo #position").val('');
+
+    }
 }
 function commitModify()
 {
@@ -110,15 +128,32 @@ function commitModify()
 }
 function removeAllPast()
 {
-
-    for(var i=myExams.length-1;i>=0;i--)
-    {
-        var today = new Date();
-        var time = new Date(myExams[i].start);
-        var count=Math.floor((time.getTime() - today.getTime())/ 86400000 + 1);
-        if(count<=0)myExams.splice(i,1);
-    }
-    sortExamInfo();
-    saveExamInfo();
-    refreshPage();
+    swal({
+        title: "确定删除吗？",
+        text: "你将失去所有考过的试!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "确定",   
+        cancelButtonText: "取消",   
+        closeOnConfirm: false,   
+        closeOnCancel: false 
+    }, function(isConfirm){   
+        if (isConfirm) {
+            swal("删除成功！", "已经全部删除！", "success");
+            for(var i=myExams.length-1;i>=0;i--)
+            {
+                var today = new Date();
+                var time = new Date(myExams[i].start);
+                var count=Math.floor((time.getTime() - today.getTime())/ 86400000 + 1);
+                if(count<=0)myExams.splice(i,1);
+            }
+            sortExamInfo();
+            saveExamInfo();
+            refreshPage(); 
+        } else {     
+            swal("取消惹", "果然没有勇气吧哈哈哈", "error");   
+        } 
+    });
+            
 }

@@ -36,14 +36,23 @@ var data = {
 $(document).ready(function(){
     initCoursetype();
     initCourseInfo();
-    getPersonalInfo();
+    if(!getPersonalInfo())return;
     loadSelectedCourse();
     loadMyExams();
     calcPersonComplete();
     calcPersonPlanned();
     showPersonalInfo();
     drawGraphByData();
-
+    if(localStorage['refreshHint']!=null)
+    {
+        $.notify({message: localStorage['refreshHint']},{type: 'success'});
+        localStorage.removeItem('refreshHint');
+    }
+    if(selectedCourse.length==0&&localStorage['newbie']==null)
+    {
+        $.notify({message: '你还没有排课，快点击课程种类标签排课吧！'},{type: 'success'});
+        localStorage['newbie']=1;
+    }
 });
 
 
@@ -111,6 +120,7 @@ function showschedule() {
 }
 
 function showChartForm(No) {
+    prepareSelectAtTime();
     var html='<table class="table table-bordered">';
     html+='<thead>\
         <tr>\
@@ -130,13 +140,27 @@ function showChartForm(No) {
         html += '<td>' + typelist[No][i].credits + '</td>';
         html += '<td>' + typelist[No][i].complete + '</td>';
         html += '<td>' + (typelist[No][i].planned-typelist[No][i].complete) + '</td>';
-        html += '<td class="className" data-toggle="modal" onclick="showCourseDetail(\''+'COMP130138.01'+'\')">' + (typelist[No][i].planned+0.01>typelist[No][i].credits?'':'本学期没开设') + '</td>';
-        html += '<td>' + '<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#selectCousre">更多</button>' + '</td>';
+        if(typelist[No][i].planned+0.01>typelist[No][i].credits)
+        {
+            html += '<td class="className" data-toggle="modal">' + '' + '</td>';
+        }
+        else
+        {
+            var bestCourse=getFeaturedClassOfThisType(No,i);
+            if(bestCourse==null)
+            {
+                html += '<td class="className" data-toggle="modal">' + '无合适课程' + '</td>';
+            }
+            else
+            {
+                html += '<td class="className" data-toggle="modal" onclick="showCourseDetail(\''+bestCourse.no+'\')">' + bestCourse.name + '</td>';
+            }
+        }
+        html += '<td>' + '<button type="button" style="background-color:#1abc9c" class="btn btn-success btn-xs" data-toggle="modal" onclick="moreClassOfThisType('+No+','+i+')">更多</button>' + '</td>';
         html += '</tr>';
     }
     html += '</tbody>';
     html += '</table>';
-    console.log(html);
     $('#classReference2').html(html);
 }
 
@@ -153,13 +177,42 @@ function showPersonalInfo()
     $("#pname").text(person.name);
     $("#pyear").text(person.year);
     $("#pdepartment").text(person.department);
-    $("#pavgscore").text('过低');
+    //$("#pavgscore").text('过低');
     $("#pmajor").text(person.major);
-    $("#psex").text(person.sex);
+    $("#pid").text(person.id);
+    //$("#psex").text(person.sex);
     $("#pallcredits").text(person.calcredits);
     $("#pneedcredits").text(152);
-
+    $("#pxuezhi").text('四年');
+}
+function moreClassOfThisType(kind,attr)
+{
+    localStorage.removeItem('filtertext');
+    localStorage['filtertype']=kind;
+    localStorage['filterattr']=attr;
+    location.href="coursetable.html";
+    
 }
 
 
-
+function getFeaturedClassOfThisType(kind,attr)
+{
+    var bestCourse=null;
+    for(var i in lessonJSONs)
+    {
+        var cinfo=lessonJSONs[i];
+        var ctype=getCourseTypeInfo(cinfo.no);
+        if(ctype.kind!=kind||ctype.attr!=attr)
+            continue;
+        var temp={info:cinfo,coursetype:ctype,test:selectableTest(cinfo.id)};
+        if((bestCourse==null||tempcomparer(temp,bestCourse)<0)&&temp.test.able>=2)
+        {
+            bestCourse=temp;
+        }
+    }
+    if(bestCourse!=null)
+    {
+        return bestCourse.info;
+    }
+    return null;
+}
