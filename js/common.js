@@ -20,7 +20,7 @@ var perference=[];
 var coursefilter=[];
 
 var testExamInfo = [
-        {
+        /*{
             title  : '人机交互',
             start  : '2016-05-10',
             time   : '08:00',
@@ -47,7 +47,7 @@ var testExamInfo = [
             time   : '17:00',
             position:'Z计算机机房1',
             method : '1'
-        }
+        }*/
     ];
 
 function loadMyExams()
@@ -72,10 +72,27 @@ function saveExamInfo()
 }
 function deleteExam(examInfoIndex)
 {
-    myExams.splice(examInfoIndex,1);
-    sortExamInfo();
-    saveExamInfo();
-    refreshPage();
+	swal({
+        title: "确定删除吗？",
+        text: "你将失去这门考试!",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "确定",   
+        cancelButtonText: "取消",   
+        closeOnConfirm: false,   
+        closeOnCancel: false 
+    }, function(isConfirm){   
+        if (isConfirm) {
+            swal("删除成功！", "不用考试啦~！", "success");
+            myExams.splice(examInfoIndex,1);
+		    sortExamInfo();
+		    saveExamInfo();
+		    refreshPage();
+        } else {     
+            swal("取消惹", "果然没有勇气放弃吧哈哈哈", "error");   
+        } 
+    });
 }
 function initCoursetype()
 {
