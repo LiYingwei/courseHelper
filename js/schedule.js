@@ -153,7 +153,7 @@ function showChartForm(No) {
             }
             else
             {
-                html += '<td class="className" data-toggle="modal" onclick="showCourseDetail(\''+bestCourse.no+'\')">' + bestCourse.name + '</td>';
+                html += '<td class="className" data-toggle="modal" onclick="showCourseDetail(\''+bestCourse.no+'\')">' + '<a href="javascript:void(0);">' + bestCourse.name + '</a></td>';
             }
         }
         html += '<td>' + '<button type="button" style="background-color:#1abc9c" class="btn btn-success btn-xs" data-toggle="modal" onclick="moreClassOfThisType('+No+','+i+')">更多</button>' + '</td>';

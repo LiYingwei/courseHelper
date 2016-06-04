@@ -1,3 +1,9 @@
 #classReference2 {
 	font-size: 12px;
 }
+#classReference2 tr{
+	text-align: center;
+}
+#classReference2 th{
+	text-align: center;
+}
