@@ -1,4 +1,4 @@
-htmlobj=$.ajax({url:"/courseHelper/header/header.html",async:false});
+htmlobj=$.ajax({url:"/header/header.html",async:false});
 $("#common-header").html(htmlobj.responseText);
 
 Sortable.create(simpleList, {
