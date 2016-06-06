@@ -437,12 +437,21 @@ function showCourseDetail(cno)
 		}).show();
 
 	}
+	var ctype=getCourseTypeInfo(cno);
 	$('#modal_courseDetail').modal('show');
 	setTimeout('drawPieChart("'+cno+'")',50);
 	$("#dclassno").text(cno);
 	$("#dcoursename").text(courseInfo[cno].name);
 	$("#dcredits").text(courseInfo[cno].credits);
-	$("#dcoursetypename").text(courseInfo[cno].courseTypeName);
+	if(ctype.kind==6||typelist[ctype.kind][ctype.attr].name==courseInfo[cno].name)
+	{
+		$("#dcoursetypename").text(typenamelist[ctype.kind]);
+	}
+	else
+	{
+		$("#dcoursetypename").text(typenamelist[ctype.kind] + '-' + typelist[ctype.kind][ctype.attr].name);
+	}
+	//.text(courseInfo[cno].courseTypeName);
 	$("#dteacher").text(courseInfo[cno].teachers);
 	if(examList[cno]!=undefined)
 	{
@@ -509,6 +518,12 @@ function clearSelectedCourse()
 function selectCourse(cid)
 {
 	console.log('选课啦:'+cid);
+	if(selectableTest(cid).able==0)
+	{
+		$('#modal_courseDetail').modal('hide');
+    	$.notify({message: selectableTest(cid).error},{type: 'danger'});
+    	return;
+	}
 	if(cid==-1)
 	{
 		alert('错误：不存在的选课号！');
