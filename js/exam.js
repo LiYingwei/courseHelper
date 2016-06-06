@@ -11,6 +11,10 @@ $(".form_datetime").datetimepicker({
 
 loadMyExams();
 loadCountDown(myExams);
+$(document).ready(function(){
+    if(myExams.length>0)
+        $('#calendar').fullCalendar('gotoDate', myExams[0].start);
+})
 $('#calendar').fullCalendar({
     theme: false,
     buttonText: {
@@ -108,6 +112,7 @@ function modifyExam(examInfoIndex)
         $("#modifyExamInfo #position").val('');
 
     }
+
 }
 function commitModify()
 {
@@ -125,6 +130,7 @@ function commitModify()
     sortExamInfo();
     saveExamInfo();
     refreshPage();
+    
 }
 function removeAllPast()
 {
