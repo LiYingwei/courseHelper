@@ -546,15 +546,23 @@ function selectCourse(cid)
     calcPersonPlanned();
 	$('#modal_courseDetail').modal('hide');
     $("#tipModal").modal("hide");
-    $.notify({message: '选课成功'},{type: 'success'});
     if($('#coursetable').length>0)
     {
+    	$.notify({message: '选课成功'},{type: 'success'});
     	drawcoursetable();
     }
     else
     {
-    	localStorage['refreshHint']='选课成功，到课程表页面查看你的课表吧！';
-    	location.href=location.href;
+    	$.notify({message: '选课成功，到课程表页面查看你的课表吧！'},{type: 'success'});
+    	//localStorage['refreshHint']='选课成功，到课程表页面查看你的课表吧！';
+    	//location.href=location.href;
+	    loadSelectedCourse();
+	    loadMyExams();
+	    calcPersonComplete();
+	    calcPersonPlanned();
+	    showPersonalInfo();
+	    drawGraphByData();
+	    showChartForm(currentChartNo);
     }
 }
 function withdrawCourse(cid)

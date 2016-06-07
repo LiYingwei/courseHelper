@@ -1,4 +1,5 @@
 var person={};
+var currentChartNo;
 var data = {
     labels : ["文理基础","通识选修","专业必修","政治选修","专业选修","六大模块"],
     datasets : [
@@ -120,6 +121,7 @@ function showschedule() {
 }
 
 function showChartForm(No) {
+    currentChartNo=No;
     prepareSelectAtTime();
     var html='<table class="table table-bordered">';
     html+='<thead>\
@@ -166,6 +168,8 @@ function showChartForm(No) {
 
 
 function drawraderchart() {
+    $("#radarChart").get(0).width=400;
+    $("#radarChart").get(0).height=400;
     //Get context with jQuery - using jQuery's .get() method.
     var ctx = $("#radarChart").get(0).getContext("2d");
     //This will get the first returned node in the jQuery collection.
