@@ -3,7 +3,8 @@
 /*tablehtml += '<p>总学分：'+ getSelectedCredits() +'</p>';*/
 
 $('#modal_courseDetail').on('hidden.bs.modal', function (e) {
-    $('body').addClass('modal-open');
+    if($('#tipModal').hasClass('in'))
+        $('body').addClass('modal-open');
 });
 
 $(document).ready(function(){
