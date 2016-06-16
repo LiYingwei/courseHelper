@@ -1,3 +1,5 @@
+var CURRENT_SEMESTER=201601;
+
 var coursetype={};
 var courseInfo={};
 
@@ -50,6 +52,20 @@ var testExamInfo = [
         }*/
     ];
 
+
+function semesterTest()
+{
+    if(localStorage["semester"]!=CURRENT_SEMESTER)
+    {
+    	localStorage["semester"]=CURRENT_SEMESTER;
+		
+        localStorage.removeItem("SelectedCourse");
+        localStorage.removeItem("exams");
+        alert("课程数据已更新~你可以选择重新同步或继续选课~");
+
+    }
+
+}
 function loadMyExams()
 {
     if(localStorage["exams"]==undefined)
