@@ -35,6 +35,7 @@ var data = {
     ]
 }
 $(document).ready(function(){
+    semesterTest();
     initCoursetype();
     initCourseInfo();
     if(!getPersonalInfo())return;

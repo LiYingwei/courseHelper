@@ -8,6 +8,7 @@ $('#modal_courseDetail').on('hidden.bs.modal', function (e) {
 });
 
 $(document).ready(function(){
+    semesterTest();
     initCoursetype();
     initFilter();
     initCourseInfo();
