@@ -24,7 +24,7 @@ $(document).ready(function(){
 var posted=0;
 $('#iframe1').load(function(){
 	
-	$('.modal p').html('请手动把urp上的已修课程情况导入本应用：<br/>(学校教务服务的计划对比可能有错，没关系，我们只获取已修课程数据)<br/>1.在下面框架内单击鼠标，通过Ctrl+A全选，Ctrl+C复制；<br/>2.在粘贴文本框内通过Ctrl+V粘贴，然后按确定。<br/>');
+	$('.modal p').html('请手动把urp上的已修课程情况导入本应用：<br/>(学校教务服务的计划对比可能有错，没关系，我们只获取已修课程数据)<br/>1.在下面框架内单击鼠标，通过Ctrl+A全选，Ctrl+C复制；<br/>2.在粘贴文本框内通过Ctrl+V粘贴，然后按确定；<br/>3.如果一直提示获取失败，请尝试刷新本页面重试一次或更换浏览器。<br/>');
 	$('#confirmCommitPersonInfo').attr('disabled',false);
 });
 $('#paste_text').on('keyup',function(){
