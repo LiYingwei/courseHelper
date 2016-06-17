@@ -10,15 +10,12 @@
         alert(data);
     } 
 }); */
-var personGet={};
 var textGet;
 //$(document).ready(function(){
 //	postToIframe({'plan.id':'9279','majorPlanId':'9279'},"http://jwfw.fudan.edu.cn/eams/stdPlanCompletedState!instantAudit.action",'iframe1');
 //});
 $(document).ready(function(){
-	if(localStorage['username']!=null)
-		personGet.id=$('#textid').val(localStorage['username']);
-	$('#infoModal').modal('show');
+	$('#syncModal').modal('show');
 	$("#postToIframe").submit();
 })
 var posted=0;
@@ -36,26 +33,17 @@ $('#paste_text').on('keyup',function(){
 		$('#paste_text').css("color","green");
 		extractPersonInfo(textGet);
 	}*/
-	if(textGet.indexOf("在校汇总")!=-1&&textGet.indexOf("成绩列表")!=-1)
+	if(textGet.indexOf("课表格式说明：教师姓名")!=-1&&textGet.indexOf("备注")!=-1)
 	{
 		$('#paste_text').val("已经读取，请稍候……");
 		$('#paste_text').css("color","green");
 		extractPersonInfo(textGet);
 	}
 });
-function commitPersonalForm()
-{
-	personGet.name=$('#textname').val();
-	personGet.id=$('#textid').val();
-	personGet.major=$('#textmajor').val();
-	personGet.department=$('#textdepartment').val();
-	$('#infoModal').modal('hide');
-	$('#syncModal').modal('show');
-}
 function forceCommitPersonInfo()
 {
 	textGet=$('#paste_text').val();
-	if(textGet.indexOf("在校汇总")!=-1&&textGet.indexOf("成绩列表")!=-1)
+	if(textGet.indexOf("课表格式说明：教师姓名")!=-1&&textGet.indexOf("备注")!=-1)
 	{
 		$('#paste_text').val("读取成功！请稍后……");
 		$('#paste_text').css("color","green");
@@ -76,35 +64,14 @@ function initCourse()
 }
 function extractPersonInfo(textGet)
 {
-	if(personGet.id!=null&&personGet.id.length==11)
-	{
-		personGet.year='20'+personGet.id.substr(0,2);
-	}
-	//personGet.name=strBetween(textGet,"姓名：\t","\t");
-	//personGet.id=strBetween(textGet,"学号：\t","\t");
-	//personGet.sex=strBetween(textGet,"性别：\t","\n");
-	//personGet.year=strBetween(textGet,"年级：\t","\t");
-	//personGet.department=strBetween(textGet,"院系：\t","\t");
-	//personGet.major=strBetween(textGet,"专业：\t","\n");
-	//personGet.credits=strBetween(textGet,"总学分：\t","\t");
-	personGet.courses=[];
-	personGet.calcredits=0;
-	/*var regex =new RegExp( /\t([A-Z]{3,4}[0-9]{5,6})\t([^\s]+)\t([0-9\.]+)\t([0-9\.]+)\t/g);
-	var getCourses=textGet.replace(/\s+/g,'\t').match(regex);
-	for(var i in getCourses)
-	{
-		str=getCourses[i].split('\t');
-		console.log(str[1] + ":" + str[3]);
-		if(str[1]=="ENGL110902")//FET或FCT
-		{
-			continue;
-		}
-		personGet.courses.push({no:str[1],credits:str[3]});
-		personGet.calcredits+=parseFloat(str[3]);
-	}*/
+	personGet=eval("["+localStorage["person"]+"]")[0];
 	var regex =new RegExp( /\t([A-Z]{3,4}[0-9]{5,6})\t/g);
 	var getCourses=textGet.replace(/\s+/g,'\t').match(regex);
 	var foundCourse=[];
+	for(var i in personGet.courses)
+	{
+		foundCourse[personGet.courses[i].no]=true;
+	}
 	initCourse();
 	for(var i in getCourses)
 	{
@@ -123,7 +90,7 @@ function extractPersonInfo(textGet)
 		}
 	}
 	localStorage["person"]=JSON.stringify(personGet);
-	window.location.href="getdata-s2.html";
+	window.location.href="schedule.html";
 }
 function strBetween(str,a,b)
 {
