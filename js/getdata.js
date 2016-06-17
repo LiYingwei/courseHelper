@@ -24,7 +24,7 @@ $(document).ready(function(){
 var posted=0;
 $('#iframe1').load(function(){
 	
-	$('.modal p').html('请手动把urp上的已修课程情况导入本应用：<br/>(学校教务服务的计划对比可能有错，没关系，我们只获取已修课程数据)<br/>1.在下面框架内单击鼠标，通过Ctrl+A全选，Ctrl+C复制；<br/>2.在粘贴文本框内通过Ctrl+V粘贴，然后按确定；<br/>3.如果一直提示获取失败，请尝试刷新本页面重试一次或更换浏览器。<br/>');
+	$('.modal p').html('请手动把urp上的已修课程情况导入本应用：<br/>(学校教务服务的计划对比可能有错，没关系，应用只获取已修课程数据)<br/>1.在下面框架内单击鼠标，通过Ctrl+A全选，Ctrl+C复制；<br/>2.在粘贴文本框内通过Ctrl+V粘贴，然后按确定；<br/>3.如果一直提示获取失败，请尝试刷新本页面重试一次或更换浏览器。<br/>');
 	$('#confirmCommitPersonInfo').attr('disabled',false);
 });
 $('#paste_text').on('keyup',function(){
@@ -36,7 +36,7 @@ $('#paste_text').on('keyup',function(){
 		$('#paste_text').css("color","green");
 		extractPersonInfo(textGet);
 	}*/
-	if(textGet.indexOf("计划比对结果详细信息")!=-1&&textGet.indexOf("(三) 通识教育选修课程(所有子项均应满足要求)")!=-1)
+	if(textGet.indexOf("在校汇总")!=-1&&textGet.indexOf("成绩列表")!=-1)
 	{
 		$('#paste_text').val("已经读取，请稍候……");
 		$('#paste_text').css("color","green");
@@ -55,7 +55,7 @@ function commitPersonalForm()
 function forceCommitPersonInfo()
 {
 	textGet=$('#paste_text').val();
-	if(textGet.indexOf("计划比对结果详细信息")!=-1&&textGet.indexOf("(三) 通识教育选修课程(所有子项均应满足要求)")!=-1)
+	if(textGet.indexOf("在校汇总")!=-1&&textGet.indexOf("成绩列表")!=-1)
 	{
 		$('#paste_text').val("读取成功！请稍后……");
 		$('#paste_text').css("color","green");
@@ -64,6 +64,14 @@ function forceCommitPersonInfo()
 	else
 	{
 		alert("信息格式有误！");
+	}
+}
+var allcoursecredits=[];
+function initCourse()
+{
+	for(var i in courseJSON)
+	{
+		allcoursecredits[courseJSON[i][1]]=courseJSON[i][3];
 	}
 }
 function extractPersonInfo(textGet)
@@ -81,7 +89,7 @@ function extractPersonInfo(textGet)
 	//personGet.credits=strBetween(textGet,"总学分：\t","\t");
 	personGet.courses=[];
 	personGet.calcredits=0;
-	var regex =new RegExp( /\t([A-Z]{3,4}[0-9]{5,6})\t([^\s]+)\t([0-9\.]+)\t([0-9\.]+)\t/g);
+	/*var regex =new RegExp( /\t([A-Z]{3,4}[0-9]{5,6})\t([^\s]+)\t([0-9\.]+)\t([0-9\.]+)\t/g);
 	var getCourses=textGet.replace(/\s+/g,'\t').match(regex);
 	for(var i in getCourses)
 	{
@@ -93,6 +101,26 @@ function extractPersonInfo(textGet)
 		}
 		personGet.courses.push({no:str[1],credits:str[3]});
 		personGet.calcredits+=parseFloat(str[3]);
+	}*/
+	var regex =new RegExp( /\t([A-Z]{3,4}[0-9]{5,6})\t/g);
+	var getCourses=textGet.replace(/\s+/g,'\t').match(regex);
+	var foundCourse=[];
+	initCourse();
+	for(var i in getCourses)
+	{
+		str=getCourses[i].split('\t');
+		console.log(str[1]);
+		if(str[1]=="ENGL110902")//FET或FCT
+		{
+			continue;
+		}
+		if(foundCourse[str[1]]==null)
+		{
+			foundCourse[str[1]]=true;
+			var credits=allcoursecredits[str[1]];
+			personGet.courses.push({no:str[1],credits:credits});
+			personGet.calcredits+=parseFloat(credits);
+		}
 	}
 	localStorage["person"]=JSON.stringify(personGet);
 	window.location.href="schedule.html";

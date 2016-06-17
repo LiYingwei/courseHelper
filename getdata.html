@@ -92,9 +92,11 @@
         </div>
       </div>
     </div>
-    <form action="http://jwfw.fudan.edu.cn/eams/stdPlanCompletedState!instantAudit.action" method="post" target="iframe1" id="postToIframe">
+    <!--<form action="http://jwfw.fudan.edu.cn/eams/stdPlanCompletedState!instantAudit.action" method="post" target="iframe1" id="postToIframe">
       <input type="hidden" name="plan.id" value="9279">
       <input type="hidden" name="majorPlanId" value="9279">
+    </form>-->
+    <form action="http://jwfw.fudan.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR" method="post" target="iframe1" id="postToIframe">
     </form>
     <script src="dist/js/vendor/jquery.min.js"></script>
     <script src="dist/js/vendor/video.js"></script>
@@ -102,6 +104,7 @@
     <script src="dist/js/vendor/Chart.min.js"></script>
     <script src="docs/assets/js/application.js"></script>
     <script src="header/header.js"></script>
+    <script src="js/data/course.js"></script>
     <script src="js/common.js"></script>
     <script src="js/getdata.js"></script>
   </body>
