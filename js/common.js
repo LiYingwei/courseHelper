@@ -113,6 +113,12 @@ function deleteExam(examInfoIndex)
 function initCoursetype()
 {
 	var script;
+	if(person.major == "计算机科学与技术")
+	{
+        person.major="14计算机(拔尖班)"
+		localStorage["person"]=JSON.stringify(person);
+		alert("培养方案数据已经更新，默认培养方案为14计算机(拔尖班)，如有误请重新同步。");
+	}
 	if(person.major.includes("14计算机(平行班)"))
 		script=("./js/data/coursetype_comp_easy.js");
 	else if(person.major.includes("14计算机(拔尖班)"))
