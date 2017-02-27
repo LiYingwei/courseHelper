@@ -37,9 +37,9 @@ var data = {
 }
 $(document).ready(function(){
     semesterTest();
+    if(!getPersonalInfo())return;
     initCoursetype();
     initCourseInfo();
-    if(!getPersonalInfo())return;
     loadSelectedCourse();
     loadMyExams();
     calcPersonComplete();

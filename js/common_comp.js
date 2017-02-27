@@ -61,7 +61,7 @@ function semesterTest()
 		
         localStorage.removeItem("SelectedCourse");
         localStorage.removeItem("exams");
-        //alert("课程数据已更新~你可以选择重新同步或继续选课~");
+        alert("课程数据已更新~你可以选择重新同步或继续选课~");
 
     }
 
@@ -112,25 +112,9 @@ function deleteExam(examInfoIndex)
 }
 function initCoursetype()
 {
-	var script;
-	if(person.major.includes("14计算机(平行班)"))
-		script=("./js/data/coursetype_comp_easy.js");
-	else if(person.major.includes("14计算机(拔尖班)"))
-		script=("./js/data/coursetype_comp_lunatic.js");
-	$.ajax({  
-          type : "get",  
-          url : script,  
-          async : false,  
-          success : function(data){  
-            eval(data);
-          }  
-    });  
 	for(var i=0;i<6;++i)
 	{
-		if(person.major.includes("14计算机(平行班)"))
-			requiredcreditslist[i]=i==4?-20.0:0.0;//专业选修分组
-		else
-			requiredcreditslist[i]=0;
+		requiredcreditslist[i]=i==4?-20.0:0.0;//专业选修分组
 		for(var s in typelist[i])
 		{
 			requiredcreditslist[i]+=typelist[i][s].credits;
@@ -208,15 +192,12 @@ function calcPersonComplete(){
 		{
 			completecreditslist[i]+=typelist[i][s].complete;
 		}
-		if(person.major.includes("14计算机(平行班)"))
+		if(i==4)//专业选修分组
 		{
-			if(i==4)//专业选修分组
-			{
-				var firstSection=Math.max(typelist[i][0].complete,
-					typelist[i][1].complete,typelist[i][2].complete);
-				completecreditslist[i]=firstSection+
-					Math.min(completecreditslist[i]-firstSection,typelist[i][3].credits);
-			}
+			var firstSection=Math.max(typelist[i][0].complete,
+				typelist[i][1].complete,typelist[i][2].complete);
+			completecreditslist[i]=firstSection+
+				Math.min(completecreditslist[i]-firstSection,typelist[i][3].credits);
 		}
 	}
 }
@@ -266,15 +247,12 @@ function calcPersonPlanned(){
 		{
 			plannedcreditslist[i]+=typelist[i][s].planned;
 		}
-		if(person.major.includes("14计算机(平行班)"))
+		if(i==4)//专业选修分组
 		{
-			if(i==4)//专业选修分组
-			{
-				var firstSection=Math.max(typelist[i][0].planned,
-					typelist[i][1].planned,typelist[i][2].planned);
-				plannedcreditslist[i]=firstSection+
-					Math.min(plannedcreditslist[i]-firstSection,typelist[i][3].credits);
-			}
+			var firstSection=Math.max(typelist[i][0].planned,
+				typelist[i][1].planned,typelist[i][2].planned);
+			plannedcreditslist[i]=firstSection+
+				Math.min(plannedcreditslist[i]-firstSection,typelist[i][3].credits);
 		}
 	}
 }

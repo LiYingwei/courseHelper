@@ -16,6 +16,8 @@ var textGet;
 //	postToIframe({'plan.id':'9279','majorPlanId':'9279'},"http://jwfw.fudan.edu.cn/eams/stdPlanCompletedState!instantAudit.action",'iframe1');
 //});
 $(document).ready(function(){
+	personGet={};
+	$('#paste_text').val("");
 	if(localStorage['username']!=null)
 		personGet.id=$('#textid').val(localStorage['username']);
 	$('#infoModal').modal('show');
