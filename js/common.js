@@ -286,7 +286,6 @@ function calcPersonPlanned(){
 }
 function initCourseInfo()
 {
-
     for(var i = 1; i <= 14; i++)
     {
         selectableByTime[i]=[];
@@ -331,6 +330,20 @@ function initCourseInfo()
             }
         }
     }
+	// Init exams
+	for(var i in courseInfo)
+	{
+		c=courseInfo[i];
+		if(c.examTime!="")
+		{
+			examList[c.no]={
+				"method" : "闭卷",
+				"date_time" : c.examTime.substr(0,16),
+				"position" : ""
+			}
+		}
+	}
+
 }
 function initGPAInfo()
 {
