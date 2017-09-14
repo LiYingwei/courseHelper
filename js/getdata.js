@@ -22,13 +22,9 @@ $(document).ready(function(){
 		personGet.id=$('#textid').val(localStorage['username']);
 	$('#infoModal').modal('show');
 	$("#postToIframe").submit();
+	$('#confirmCommitPersonInfo').attr('disabled',false);
 })
 var posted=0;
-$('#iframe1').load(function(){
-	
-	$('.modal p').html('请手动把urp上的已修课程情况导入本应用：<br/>(学校教务服务的计划对比可能有错，没关系，应用只获取已修课程数据)<br/>1.在下面框架内单击鼠标，通过Ctrl+A全选，Ctrl+C复制；<br/>2.在粘贴文本框内通过Ctrl+V粘贴，然后按确定；<br/>3.如果一直提示获取失败，请尝试刷新本页面重试一次或更换浏览器。<br/>');
-	$('#confirmCommitPersonInfo').attr('disabled',false);
-});
 $('#paste_text').on('keyup',function(){
 	textGet=$('#paste_text').val();
 	/*
@@ -38,7 +34,7 @@ $('#paste_text').on('keyup',function(){
 		$('#paste_text').css("color","green");
 		extractPersonInfo(textGet);
 	}*/
-	if(textGet.indexOf("在校汇总")!=-1&&textGet.indexOf("成绩列表")!=-1)
+	if(textGet.indexOf("替代课程")!=-1&&textGet.indexOf("课程代码")!=-1)
 	{
 		$('#paste_text').val("已经读取，请稍候……");
 		$('#paste_text').css("color","green");
@@ -57,7 +53,7 @@ function commitPersonalForm()
 function forceCommitPersonInfo()
 {
 	textGet=$('#paste_text').val();
-	if(textGet.indexOf("在校汇总")!=-1&&textGet.indexOf("成绩列表")!=-1)
+	if(textGet.indexOf("替代课程")!=-1&&textGet.indexOf("课程代码")!=-1)
 	{
 		$('#paste_text').val("读取成功！请稍后……");
 		$('#paste_text').css("color","green");

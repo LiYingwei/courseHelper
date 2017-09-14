@@ -156,7 +156,7 @@ function getPersonalInfo()
     if(localStorage["person"]==undefined)
     {
         alert("请先点击右上角同步以获取你的个人信息~");
-        window.location.href="login.html";
+        window.location.href="getdata.html";
         return false;
     }
     else
