@@ -192,7 +192,7 @@ function showPersonalInfo()
     $("#pid").text(person.id);
     //$("#psex").text(person.sex);
     $("#pallcredits").text(person.calcredits);
-    $("#pneedcredits").text(152);
+    $("#pneedcredits").text(151);
     $("#pxuezhi").text('四年');
 }
 function moreClassOfThisType(kind,attr)
