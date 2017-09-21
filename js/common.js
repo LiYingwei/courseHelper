@@ -1,3 +1,5 @@
+var CURRENT_SEMESTER=201601;
+
 var coursetype={};
 var courseInfo={};
 
@@ -50,6 +52,20 @@ var testExamInfo = [
         }*/
     ];
 
+
+function semesterTest()
+{
+    if(localStorage["semester"]!=CURRENT_SEMESTER)
+    {
+    	localStorage["semester"]=CURRENT_SEMESTER;
+		
+        localStorage.removeItem("SelectedCourse");
+        localStorage.removeItem("exams");
+        //alert("课程数据已更新~你可以选择重新同步或继续选课~");
+
+    }
+
+}
 function loadMyExams()
 {
     if(localStorage["exams"]==undefined)
@@ -96,9 +112,31 @@ function deleteExam(examInfoIndex)
 }
 function initCoursetype()
 {
+	var script;
+	if(person.major == "计算机科学与技术")
+	{
+        person.major="14计算机(拔尖班)"
+		localStorage["person"]=JSON.stringify(person);
+		alert("培养方案数据已经更新，默认培养方案为14计算机(拔尖班)，如有误请重新同步。");
+	}
+	if(person.major.includes("14计算机(平行班)"))
+		script=("./js/data/coursetype_comp_easy.js");
+	else if(person.major.includes("14计算机(拔尖班)"))
+		script=("./js/data/coursetype_comp_lunatic.js");
+	$.ajax({  
+          type : "get",  
+          url : script,  
+          async : false,  
+          success : function(data){  
+            eval(data);
+          }  
+    });  
 	for(var i=0;i<6;++i)
 	{
-		requiredcreditslist[i]=i==4?-20.0:0.0;//专业选修分组
+		if(person.major.includes("14计算机(平行班)"))
+			requiredcreditslist[i]=i==4?-20.0:0.0;//专业选修分组
+		else
+			requiredcreditslist[i]=0;
 		for(var s in typelist[i])
 		{
 			requiredcreditslist[i]+=typelist[i][s].credits;
@@ -118,7 +156,7 @@ function getPersonalInfo()
     if(localStorage["person"]==undefined)
     {
         alert("请先点击右上角同步以获取你的个人信息~");
-        window.location.href="login.html";
+        window.location.href="getdata.html";
         return false;
     }
     else
@@ -176,12 +214,15 @@ function calcPersonComplete(){
 		{
 			completecreditslist[i]+=typelist[i][s].complete;
 		}
-		if(i==4)//专业选修分组
+		if(person.major.includes("14计算机(平行班)"))
 		{
-			var firstSection=Math.max(typelist[i][0].complete,
-				typelist[i][1].complete,typelist[i][2].complete);
-			completecreditslist[i]=firstSection+
-				Math.min(completecreditslist[i]-firstSection,typelist[i][3].credits);
+			if(i==4)//专业选修分组
+			{
+				var firstSection=Math.max(typelist[i][0].complete,
+					typelist[i][1].complete,typelist[i][2].complete);
+				completecreditslist[i]=firstSection+
+					Math.min(completecreditslist[i]-firstSection,typelist[i][3].credits);
+			}
 		}
 	}
 }
@@ -231,18 +272,20 @@ function calcPersonPlanned(){
 		{
 			plannedcreditslist[i]+=typelist[i][s].planned;
 		}
-		if(i==4)//专业选修分组
+		if(person.major.includes("14计算机(平行班)"))
 		{
-			var firstSection=Math.max(typelist[i][0].planned,
-				typelist[i][1].planned,typelist[i][2].planned);
-			plannedcreditslist[i]=firstSection+
-				Math.min(plannedcreditslist[i]-firstSection,typelist[i][3].credits);
+			if(i==4)//专业选修分组
+			{
+				var firstSection=Math.max(typelist[i][0].planned,
+					typelist[i][1].planned,typelist[i][2].planned);
+				plannedcreditslist[i]=firstSection+
+					Math.min(plannedcreditslist[i]-firstSection,typelist[i][3].credits);
+			}
 		}
 	}
 }
 function initCourseInfo()
 {
-
     for(var i = 1; i <= 14; i++)
     {
         selectableByTime[i]=[];
@@ -287,6 +330,20 @@ function initCourseInfo()
             }
         }
     }
+	// Init exams
+	for(var i in courseInfo)
+	{
+		c=courseInfo[i];
+		if(c.examTime!="")
+		{
+			examList[c.no]={
+				"method" : "闭卷",
+				"date_time" : c.examTime.substr(0,16),
+				"position" : ""
+			}
+		}
+	}
+
 }
 function initGPAInfo()
 {
