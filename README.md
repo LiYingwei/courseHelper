@@ -3,6 +3,7 @@
 ## how to run
 
 ```
+npm install bower -g
 bower install
 // 浏览器中打开 index.html
 ```
