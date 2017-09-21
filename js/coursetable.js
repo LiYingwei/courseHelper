@@ -8,10 +8,11 @@ $('#modal_courseDetail').on('hidden.bs.modal', function (e) {
 });
 
 $(document).ready(function(){
+    semesterTest();
+    if(!getPersonalInfo())return;
     initCoursetype();
     initFilter();
     initCourseInfo();
-    getPersonalInfo();
     loadSelectedCourse();
     loadMyExams();
     calcPersonComplete();

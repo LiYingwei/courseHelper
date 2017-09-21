@@ -1,5 +1,6 @@
 var person={};
 var currentChartNo;
+var tempExistCourseAtThisTime;
 var data = {
     labels : ["文理基础","通识选修","专业必修","政治选修","专业选修","六大模块"],
     datasets : [
@@ -35,9 +36,10 @@ var data = {
     ]
 }
 $(document).ready(function(){
+    semesterTest();
+    if(!getPersonalInfo())return;
     initCoursetype();
     initCourseInfo();
-    if(!getPersonalInfo())return;
     loadSelectedCourse();
     loadMyExams();
     calcPersonComplete();
@@ -151,7 +153,11 @@ function showChartForm(No) {
             var bestCourse=getFeaturedClassOfThisType(No,i);
             if(bestCourse==null)
             {
-                html += '<td class="className" data-toggle="modal">' + '无合适课程' + '</td>';
+                if(tempExistCourseAtThisTime)
+                    html += '<td class="className" data-toggle="modal">' + '冲突或重复' + '</td>';
+                else
+                    html += '<td class="className" data-toggle="modal" style="color:grey">' + '本学期没开' + '</td>';
+
             }
             else
             {
@@ -186,7 +192,7 @@ function showPersonalInfo()
     $("#pid").text(person.id);
     //$("#psex").text(person.sex);
     $("#pallcredits").text(person.calcredits);
-    $("#pneedcredits").text(152);
+    $("#pneedcredits").text(151);
     $("#pxuezhi").text('四年');
 }
 function moreClassOfThisType(kind,attr)
@@ -202,12 +208,14 @@ function moreClassOfThisType(kind,attr)
 function getFeaturedClassOfThisType(kind,attr)
 {
     var bestCourse=null;
+    tempExistCourseAtThisTime=false;
     for(var i in lessonJSONs)
     {
         var cinfo=lessonJSONs[i];
         var ctype=getCourseTypeInfo(cinfo.no);
         if(ctype.kind!=kind||ctype.attr!=attr)
             continue;
+        tempExistCourseAtThisTime=true;
         var temp={info:cinfo,coursetype:ctype,test:selectableTest(cinfo.id)};
         if((bestCourse==null||tempcomparer(temp,bestCourse)<0)&&temp.test.able>=2)
         {
