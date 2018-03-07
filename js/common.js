@@ -1,4 +1,4 @@
-var CURRENT_SEMESTER=201601;
+var CURRENT_SEMESTER=201702;
 
 var coursetype={};
 var courseInfo={};
